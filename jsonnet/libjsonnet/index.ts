@@ -2,7 +2,7 @@ import fs from 'fs';
 import '../dist/wasm_exec.js';
 
 export type Jsonnet = {
-  evaluate: (
+  jsonnet_evaluate_snippet: (
     filename: string,
     code: string,
     files: Record<string, string>,
@@ -11,11 +11,16 @@ export type Jsonnet = {
     tlaStrs: Record<string, string>,
     tlaCodes: Record<string, string>,
   ) => Promise<string>;
+
+  evaluate: (
+    code: string,
+    extrStrs?: Record<string, string>,
+  ) => Promise<string>;
 };
 
 let jsonnet: Jsonnet | undefined;
 declare const Go: any;
-declare let jsonnet_evaluate_snippet: Jsonnet['evaluate'] | undefined;
+declare let jsonnet_evaluate_snippet: Jsonnet['jsonnet_evaluate_snippet'] | undefined;
 
 export async function getJsonnet(): Promise<Jsonnet> {
   if (jsonnet) {
@@ -31,8 +36,22 @@ export async function getJsonnet(): Promise<Jsonnet> {
     throw new Error('libjsonnet: `jsonnet_evaluate_snippet` is missing');
   }
 
+  async function evaluate(
+    code: string,
+    vars?: Record<string, string>
+  ): Promise<string> {
+    return jsonnet_evaluate_snippet!(
+      'anonymous',
+      code,
+      { anonymous: code },
+      vars ?? {},
+      {}, {}, {}
+    );
+  }
+
   jsonnet = {
-    evaluate: jsonnet_evaluate_snippet,
+    jsonnet_evaluate_snippet,
+    evaluate,
   }
   return jsonnet;
 }

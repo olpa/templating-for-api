@@ -13,12 +13,7 @@ async function main() {
     }
   `;
 
-  const back = await jsonnet.evaluate(
-    'test.ts',
-    code,
-    { 'test.ts': code },
-    {}, {}, {}, {}
-  );
+  const back = await jsonnet.evaluate(code);
   console.log(back);
 }
 
