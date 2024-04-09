@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "required": ["url", "body", "method"],
+  "properties": {
+    "url": { "type": "string" },
+    "method": { "type": "string" },
+    "body": { "type": "object" },
+    "headers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "browsingTopics": { "type": "boolean"},
+    "keepalive": {"type": "boolean"}
+  },
+  "additionalProperties": {
+    "type": "string"
+  }
+}

@@ -1,6 +1,8 @@
-import { getJsonnet } from '../../jsonnet/libjsonnet/index';
-import yargs from 'yargs';
 import fs from 'fs';
+import yargs from 'yargs';
+import Ajv, { JSONSchemaType } from 'ajv';
+import { getJsonnet } from '../../jsonnet/libjsonnet/index';
+import { TplfaRequest } from '../../tplfa/lib/types';
 
 interface ToolArguments {
   requestTpl: string;
@@ -44,6 +46,13 @@ async function parseCommandLine(): Promise<yargs.Arguments<ToolArguments>> {
 async function main() {
   const argv = await parseCommandLine();
 
+  const ajv = new Ajv();
+  const validateRequest = ajv.compile(
+    JSON.parse(
+      fs.readFileSync(`${__dirname}/../../tplfa/schemas/request.json`, 'utf8')
+    ) as JSONSchemaType<TplfaRequest>
+  );
+
   const code = fs.readFileSync(argv.requestTpl, 'utf-8');
   const jsonnet = await getJsonnet();
   const reqStr = await jsonnet.evaluate(code, {
@@ -53,15 +62,26 @@ async function main() {
   });
 
   const req = JSON.parse(reqStr);
-  if (argv.debug) {
+  function printRequest(req: TplfaRequest) {
     console.log('tplfa: templated request:');
     console.log(JSON.stringify(req, undefined, 2));
   }
+  if (argv.debug) {
+    printRequest(req);
+  }
+  if (!validateRequest(req)) {
+    console.log('tplfa: invalid request:', validateRequest.errors);
+    printRequest(req);
+    return;
+  }
 
   const url = req.url;
-  delete req.url;
-  req.body = JSON.stringify(req.body);
-  const resp = await fetch(url, req);
+  const fetchParams = {
+    ...req,
+    url: undefined,
+    body: JSON.stringify(req.body),
+  };
+  const resp = await fetch(url, fetchParams);
 
   console.log(await resp.text());
 }
