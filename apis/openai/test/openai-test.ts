@@ -17,12 +17,15 @@ describe('open ai', () => {
 
     const expectedInHappyPath = {
         url,
+        method: 'POST',
         headers: {
+          'Content-type': 'application/json',
           Authorization: 'Bearer is a secret1',
           'OpenAI-Organization': 'is a secret2',
         },
         body: {
-          messages: [{role: 'user', content: 'is a prompt'}]
+          messages: [{role: 'user', content: 'is a prompt'}],
+          model: 'gpt-3.5-turbo',
         },
       };
 
@@ -48,8 +51,48 @@ describe('open ai', () => {
       chai.expect(back).to.eql({
         ...expectedInHappyPath,
         headers: {
+          'Content-type': 'application/json',
           Authorization: 'Bearer is a secret1',
         },
+      });
+    });
+  });
+
+  describe('response to document', () => {
+    const documentTpl = fs.readFileSync(`${__dirname}/../lib/document-tpl.jsonnet`, 'utf-8');
+
+    const openaiResponseExample = {
+      "id": "chatcmpl-9CKV4SYeEJFiXexesvNDpxp5tfAiI",
+      "object": "chat.completion",
+      "created": 1712725766,
+      "model": "gpt-3.5-turbo-0125",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "Pong!"
+          },
+          "logprobs": null,
+          "finish_reason": "stop"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 8,
+        "completion_tokens": 3,
+        "total_tokens": 11
+      },
+      "system_fingerprint": "fp_b28b39ffa8"
+    }
+
+    it('happy path', async () => {
+      const doc = JSON.parse(await jsonnet.evaluate(
+        documentTpl,
+        { response: JSON.stringify(openaiResponseExample)}
+      ));
+
+      chai.expect(doc).to.eql({
+        doc: [{ type: 'markdown', content: [{ type: 'text', text: 'Pong!' }] }],
       });
     });
   });
