@@ -56,6 +56,30 @@ describe('open ai', () => {
         },
       });
     });
+
+    it('patch a request', async () => {
+      const patchTpl = fs.readFileSync(
+        `${__dirname}/../../openai-patch-example/lib/request-tpl.jsonnet`,
+        'utf-8'
+      );
+
+      const backStr = await jsonnet.evaluate(patchTpl, {
+        parent: JSON.stringify(expectedInHappyPath),
+      });
+      const back = JSON.parse(backStr);
+
+      chai.expect(back).to.eql({
+        ...expectedInHappyPath,
+        body: {
+          ...expectedInHappyPath.body,
+          // added by the patch
+          n: 3,
+          logit_bias: {
+            Pong: -100
+          }
+        },
+      });
+    });
   });
 
   describe('response to document', () => {

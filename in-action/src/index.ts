@@ -5,7 +5,7 @@ import { getJsonnet } from '../../jsonnet/libjsonnet/index';
 import { TplfaDocument, TplfaRequest } from '../../tplfa/lib/types';
 
 interface ToolArguments {
-  api: string;
+  api: string[];
   prompt: string;
   secret1: string;
   secret2: string;
@@ -17,7 +17,8 @@ async function parseCommandLine(): Promise<yargs.Arguments<ToolArguments>> {
     .option('api', {
       describe: 'Path to the api dir with files `request-tpl.jsonnet` and `document-tpl.jsonnet`',
       demandOption: true,
-      type: 'string'
+      type: 'string',
+      array: true,
     })
     .option('prompt', {
       describe: 'Prompt value',
@@ -48,10 +49,7 @@ async function main() {
   //
   // Load runtime
   //
-  const codeMkRequest = fs.readFileSync(`${argv.api}/request-tpl.jsonnet`, 'utf-8');
-  const codeMkDocument = fs.readFileSync(`${argv.api}/document-tpl.jsonnet`, 'utf-8');
   const jsonnet = await getJsonnet();
-
   const ajv = new Ajv();
   const validateRequest = ajv.compile(
     JSON.parse(
@@ -65,25 +63,43 @@ async function main() {
   );
 
   //
+  // Load APIs
+  //
+  function readFileNoExc(path: string): string | undefined {
+    try {
+      return fs.readFileSync(path, 'utf-8');
+    } catch {
+      return undefined;
+    }
+  }
+  const reqTpls: string[] = argv.api.map(
+    (api) => readFileNoExc(`${api}/request-tpl.jsonnet`)
+  ).filter((c): c is string => !!c);
+  const docTpls = argv.api.map(
+    (api) => readFileNoExc(`${api}/document-tpl.jsonnet`)
+  ).filter((c): c is string => !!c);
+  docTpls.reverse();
+
+  //
   // Build a request
   //
-  const reqStr = await jsonnet.evaluate(codeMkRequest, {
-    prompt: argv.prompt,
-    secret1: argv.secret1,
-    secret2: argv.secret2
-  });
+  async function nextReqTemplate(reqSoFar: Promise<string>, codeTpl: string, i: number): Promise<string> {
+    const step = await jsonnet.evaluate(codeTpl, {
+      parent: await reqSoFar,
+      prompt: argv.prompt,
+      secret1: argv.secret1,
+      secret2: argv.secret2
+    })
+    if (argv.debug) {
+      console.log(`tplfa: templated request [${i}]:\n${step}`);
+    }
+    return step;
+  }
+  const reqStr = await reqTpls.reduce(nextReqTemplate, Promise.resolve('{}'));
 
   const req = JSON.parse(reqStr);
-  function printRequest(req: TplfaRequest) {
-    console.log('tplfa: templated request:');
-    console.log(JSON.stringify(req, undefined, 2));
-  }
-  if (argv.debug) {
-    printRequest(req);
-  }
   if (!validateRequest(req)) {
-    console.log('tplfa: invalid request:', validateRequest.errors);
-    printRequest(req);
+    console.log(`tplfa: invalid request:\nRequest: ${reqStr}\nErrors:j ${validateRequest.errors}`);
     return;
   }
 
@@ -110,9 +126,16 @@ async function main() {
   //
   // Transform the response to a document
   //
-  const docStr = await jsonnet.evaluate(codeMkDocument, {
-    response: resp
-  });
+  async function nextDocTemplate(respSoFar: Promise<string>, codeTpl: string, i: number): Promise<string> {
+    const step = await jsonnet.evaluate(codeTpl, {
+      response: await respSoFar,
+    })
+    if (argv.debug) {
+      console.log(`tplfa: templated response [${i}]:\n${step}`);
+    }
+    return step;
+  }
+  const docStr = await docTpls.reduce(nextDocTemplate, Promise.resolve(resp));
 
   const doc = JSON.parse(docStr);
   function printDocument(doc: TplfaDocument) {
