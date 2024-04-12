@@ -74,9 +74,7 @@ describe('open ai', () => {
           ...expectedInHappyPath.body,
           // added by the patch
           n: 3,
-          logit_bias: {
-            Pong: -100
-          }
+          temperature: 0.8,
         },
       });
     });
