@@ -1,8 +1,8 @@
 import fs from 'fs';
 import yargs from 'yargs';
 import Ajv, { JSONSchemaType } from 'ajv';
-import { getJsonnet } from '../../jsonnet/libjsonnet/index';
-import { TplfaDocument, TplfaRequest } from '../../tplfa/lib/types';
+import { getJsonnet } from '../../../jsonnet/libjsonnet/index';
+import { TplfaDocument, TplfaRequest } from '../../../tplfa/lib/types';
 
 interface ToolArguments {
   api: string[];
@@ -53,12 +53,12 @@ async function main() {
   const ajv = new Ajv();
   const validateRequest = ajv.compile(
     JSON.parse(
-      fs.readFileSync(`${__dirname}/../../tplfa/schemas/request.json`, 'utf8')
+      fs.readFileSync(`${__dirname}/../../../tplfa/schemas/request.json`, 'utf8')
     ) as JSONSchemaType<TplfaRequest>
   );
   const validateDocument = ajv.compile(
     JSON.parse(
-      fs.readFileSync(`${__dirname}/../../tplfa/schemas/document.json`, 'utf8')
+      fs.readFileSync(`${__dirname}/../../../tplfa/schemas/document.json`, 'utf8')
     ) as JSONSchemaType<TplfaDocument>
   );
 
