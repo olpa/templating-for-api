@@ -36,7 +36,7 @@ async function parseCommandLine(): Promise<yargs.Arguments<ToolArguments>> {
       type: 'string'
     })
     .option('debug', {
-      describe: 'Print result of transformations',
+      describe: 'Print results of transformations',
       default: false,
       type: 'boolean'
     })
