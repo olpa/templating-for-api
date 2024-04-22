@@ -67,6 +67,12 @@ At the moment, there is only a template for [OpenAI chat completion](https://pla
 - Copy-paste the openai template to a new directory
 - Modify the templates and update tests
 
+# Add templating to an application
+
+There are official libraries for Python, Go, C and C++, plus unofficial third-party bindings: <https://jsonnet.org/ref/bindings.html>.
+
+This repository `templating-for-api` provides JavaScript and TypeScript bindings to `jsonnet` through WebAssembly compilation. There is no `npm` package, you are supposed to copy files into your project: [./jsonnet/dist/](./jsonnet/dist/), [./jsonnet/typescript/jsonnet.ts](./jsonnet/typescript/jsonnet.ts)
+
 # Contents
 
 - [./apis/](./apis/)
