@@ -1,5 +1,6 @@
 import fs from 'fs';
-import { Jsonnet, getJsonnet } from '../../../jsonnet/libjsonnet';
+import '../../../jsonnet/dist/wasm_exec.js';
+import { Jsonnet, getJsonnet } from '../../../jsonnet/typescript/jsonnet';
 import chai from 'chai';
 chai.config.truncateThreshold = 0;
 
@@ -9,7 +10,10 @@ describe('open ai', () => {
   let jsonnet: Jsonnet;
 
   before(async () => {
-    jsonnet = await getJsonnet();
+    const jsonnetWasm = await fs.promises.readFile(
+      `${__dirname}/../../../jsonnet/dist/libjsonnet.wasm`
+    );
+    jsonnet = await getJsonnet(jsonnetWasm);
   });
 
   describe('make request', () => {

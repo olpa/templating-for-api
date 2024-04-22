@@ -72,4 +72,5 @@ At the moment, there is only a template for [OpenAI chat completion](https://pla
 - [./apis/](./apis/)
 - [./tplfa/](./tplfa/): JSON validation schemas for template output
 - [./in-action/nodejs-cli/](./in-action/nodejs-cli/): Command-like tool to run templates and use APIs
+- [./in-action/web-js/](./in-action/web-js/): Using jsonnet in a browser
 - [./jsonnet/](./jsonnet/): Typescript library

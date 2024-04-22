@@ -6,15 +6,37 @@
 
 <!-- load Jsonnet -->
 <script src="/js/wasm_exec.js"></script>
+<script src="/js/jsonnet.js"></script>
 <script>
-const jnPromise = (async () => {
+const loadPromise = (async () => {
   console.log('Loading libjsonnet: started');
-  const go = new Go();
+
   const jnWasm = fetch('/js/libjsonnet.wasm');
-  const { instance } = await WebAssembly.instantiateStreaming(jnWasm, go.importObject);
-  go.run(instance);
+  const jn = await getJsonnet(jnWasm);
+  // alternatively, with awaited `fetch`:
+  // const jsWasm = await fetch('/js/libjsonnet.wasm');
+  // const jn = await getJsonnet(await jsWasm.arrayBuffer());
+
   console.log('Loading libjsonnet: done');
+  return jn;
 })();
+</script>
+
+<!-- use jsonnet -->
+<script>
+async function main(jsonnet) {
+  console.log('Hello from main!');
+
+  const code = document.getElementById('code').textContent;
+
+  const out = await jsonnet.evaluate(
+    code,
+    { name: 'Kitty' }, // extrStrs
+  ).catch(e => e);
+
+  const outEl = document.getElementById('output');
+  outEl.textContent = out;
+}
 </script>
 
 <h1>Jsonnet Example</h1>
@@ -33,26 +55,8 @@ const jnPromise = (async () => {
 <b>Output</b>
 <pre id="output" />
 
-<!-- use jsonnet -->
 <script>
-async function main() {
-  console.log('Hello from main!');
-
-  const code = document.getElementById('code').textContent;
-
-  const out = await jsonnet_evaluate_snippet(
-    'index.html', // filename
-    code,
-    {}, // files
-    { name: 'Kitty' }, // extrStrs
-    {}, {}, {} // extrCodes, tlaStrs, tlaCodes
-  ).catch(e => e);
-
-  const outEl = document.getElementById('output');
-  outEl.textContent = out;
-}
-jnPromise.then(main);
+document.addEventListener("DOMContentLoaded", loadPromise.then(main));
 </script>
-
 </body>
 </html>
