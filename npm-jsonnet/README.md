@@ -1,4 +1,4 @@
-# jsonnet for TypeScript
+# jsonnet for TypeScript and JavaScript, packaged for `npm`
 
 ## Compile the jsonnet library
 
