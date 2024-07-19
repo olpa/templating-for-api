@@ -18,8 +18,9 @@ export type Jsonnet = {
 let jsonnet: Jsonnet | undefined;
 declare class Go {
   run: (wasm: WebAssembly.Module) => void;
+
   importObject: WebAssembly.Imports;
-};
+}
 // eslint-disable-next-line @typescript-eslint/naming-convention
 declare let jsonnet_evaluate_snippet:
   | Jsonnet['jsonnet_evaluate_snippet']
@@ -48,7 +49,8 @@ export async function getJsonnet(
     code: string,
     vars?: Record<string, string>
   ): Promise<string> {
-    return jsonnet_evaluate_snippet(
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return jsonnet_evaluate_snippet!(
       'anonymous',
       code,
       { anonymous: code },
