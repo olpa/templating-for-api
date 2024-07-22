@@ -1,7 +1,9 @@
 set -eu
 
+cp ../jsonnet-wasm/dist/libjsonnet.wasm ../jsonnet-wasm/dist/wasm_exec.js ./dist/
+
 docker run \
-  -v $(pwd)/dist-npm:/dist \
+  -v $(pwd)/dist:/dist \
   -v $(pwd)/typescript:/src \
   mcr.microsoft.com/devcontainers/typescript-node:20 \
   bash -c " \

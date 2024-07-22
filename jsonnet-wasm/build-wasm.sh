@@ -13,6 +13,3 @@ GOOS=js GOARCH=wasm go build -o libjsonnet.wasm ./cmd/wasm && \
 cp libjsonnet.wasm /dist/ && \
 cp \$(go env GOROOT)/misc/wasm/wasm_exec.js /dist/
 "
-
-cp ./dist/libjsonnet.wasm ./dist-npm/libjsonnet.wasm
-mv ./dist/wasm_exec.js ./dist-npm/wasm_exec.js
