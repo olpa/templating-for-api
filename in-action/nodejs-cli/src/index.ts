@@ -1,8 +1,8 @@
 import fs from 'fs';
 import yargs from 'yargs';
 import Ajv, { JSONSchemaType } from 'ajv';
-import '../../../jsonnet/dist/wasm_exec.js';
-import { getJsonnet } from '../../../jsonnet/typescript/jsonnet';
+import 'tplfa-jsonnet/wasm_exec.js';
+import { Jsonnet, getJsonnet } from 'tplfa-jsonnet/jsonnet';
 import { TplfaDocument, TplfaRequest } from '../../../tplfa/lib/types';
 
 interface ToolArguments {
@@ -51,7 +51,7 @@ async function main() {
   // Load runtime
   //
   const jsonnetWasm = await fs.promises.readFile(
-    `${__dirname}/../../../jsonnet/dist/libjsonnet.wasm`
+    require.resolve('tplfa-jsonnet/libjsonnet.wasm')
   );
   const jsonnet = await getJsonnet(jsonnetWasm);
   const ajv = new Ajv();
