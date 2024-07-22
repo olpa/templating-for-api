@@ -9,7 +9,7 @@ class MyHandler(SimpleHTTPRequestHandler):
         path2 = path.lstrip("/")
         if path2.startswith("js/"):
             path2 = path2[3:]
-            hostpath = os.path.join(root, "../../jsonnet/dist", path2)
+            hostpath = os.path.join(root, "../../jsonnet-js-ts/dist", path2)
         else:
             hostpath = os.path.join(root, path2)
 
