@@ -78,6 +78,7 @@ This repository `templating-for-api` provides JavaScript and TypeScript bindings
 - [./apis/](./apis/): API definitions
 - [./jsonnet-wasm/](./jsonnet-wasm/): WebAssembly version of Jsonnet
 - [./jsonnet-js-ts/](./jsonnet-js-ts/): Javascript and Typescript bindings
-- [./in-action/web-js/](./in-action/web-js/): Using jsonnet in a browser
+- [./in-action/web-jsonnet/](./in-action/web-jsonnet/): Using jsonnet in a browser
+- [./in-action/nodejs-jsonnet/](./in-action/nodejs-jsonnet/): Using jsonnet in Node.js
 - [./tplfa/](./tplfa/): JSON validation schemas for template output
-- [./in-action/nodejs-cli/](./in-action/nodejs-cli/): Command-like tool to run templates and use APIs
+- [./in-action/nodejs-tplfa/](./in-action/nodejs-tplfa/): Command-like tool to run templates and use APIs
