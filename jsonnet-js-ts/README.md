@@ -1,6 +1,9 @@
 # jsonnet for TypeScript and JavaScript
 
-For sample usage in Nodejs, see [../in-action/nodejs-cli/](../in-action/nodejs-cli/).
+For sample usage, see
+
+- [../in-action/web-jsonnet/](../in-action/web-jsonnet/)
+- [../in-action/nodejs-jsonnet/](../in-action/nodejs-jsonnet/)
 
 Installation:
 
