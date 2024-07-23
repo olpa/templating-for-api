@@ -8,7 +8,7 @@ For sample usage, see
 Installation:
 
 ```
-npm install https://github.com/olpa/TODO path to release
+npm install https://github.com/olpa/templating-for-api/releases/download/jsonnet-v1.0.1/jsonnet-v1.0.1.tar.gz
 ```
 
 In code:

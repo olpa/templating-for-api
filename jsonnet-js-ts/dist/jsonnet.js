@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getJsonnet = void 0;
 let jsonnet;
 async function getJsonnet(jnWasm) {
     if (jsonnet) {
@@ -21,3 +24,4 @@ async function getJsonnet(jnWasm) {
     };
     return jsonnet;
 }
+exports.getJsonnet = getJsonnet;
