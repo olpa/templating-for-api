@@ -4,6 +4,7 @@
     "start": "ts-node index.ts"
   },
   "dependencies": {
+    "tplfa-jsonnet": "file:../../jsonnet-js-ts/dist",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   }
