@@ -14,6 +14,7 @@
     "@types/mocha": "^10.0.6",
     "chai": "^4.4.1",
     "mocha": "^10.4.0",
+    "tplfa-jsonnet": "file:../../jsonnet-js-ts/dist",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {

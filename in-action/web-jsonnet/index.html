@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>Using jsonnet in browser</title>
+</head>
+<body>
+
+<!-- load Jsonnet -->
+<script src="/js/wasm_exec.js"></script>
+<script src="/js/jsonnet-js.js"></script>
+<script>
+const loadPromise = (async () => {
+  console.log('Loading libjsonnet: started');
+
+  const jnWasm = fetch('/js/libjsonnet.wasm');
+  const jn = await getJsonnet(jnWasm);
+  // alternatively, with awaited `fetch`:
+  // const jsWasm = await fetch('/js/libjsonnet.wasm');
+  // const jn = await getJsonnet(await jsWasm.arrayBuffer());
+
+  console.log('Loading libjsonnet: done');
+  return jn;
+})();
+</script>
+
+<!-- use jsonnet -->
+<script>
+async function main(jsonnet) {
+  console.log('Hello from main!');
+
+  const code = document.getElementById('code').textContent;
+
+  const out = await jsonnet.evaluate(
+    code,
+    { name: 'Kitty' }, // extrStrs
+  ).catch(e => e);
+
+  const outEl = document.getElementById('output');
+  outEl.textContent = out;
+}
+</script>
+
+<h1>Jsonnet Example</h1>
+<b>Code</b>
+<pre id="code">
+// Jsonnet Example
+{
+    person1: {
+        name: "Alice",
+        welcome: "Hello " + self.name + "!",
+    },
+    person2: self.person1 { name: "Bob" },
+    person3: self.person2 { name: std.extVar("name") },
+}
+</pre>
+<b>Output</b>
+<pre id="output" />
+
+<script>
+document.addEventListener("DOMContentLoaded", loadPromise.then(main));
+</script>
+</body>
+</html>

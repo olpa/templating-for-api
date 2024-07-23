@@ -1,6 +1,6 @@
 import fs from 'fs';
-import '../../../jsonnet/dist/wasm_exec.js';
-import { Jsonnet, getJsonnet } from '../../../jsonnet/typescript/jsonnet';
+import 'tplfa-jsonnet/wasm_exec.js';
+import { Jsonnet, getJsonnet } from 'tplfa-jsonnet/jsonnet';
 import chai from 'chai';
 chai.config.truncateThreshold = 0;
 
@@ -11,7 +11,7 @@ describe('open ai', () => {
 
   before(async () => {
     const jsonnetWasm = await fs.promises.readFile(
-      `${__dirname}/../../../jsonnet/dist/libjsonnet.wasm`
+      require.resolve('tplfa-jsonnet/libjsonnet.wasm')
     );
     jsonnet = await getJsonnet(jsonnetWasm);
   });
