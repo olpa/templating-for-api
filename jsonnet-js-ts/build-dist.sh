@@ -1,14 +1,14 @@
 set -eu
 
 cp ../jsonnet-wasm/dist/libjsonnet.wasm ../jsonnet-wasm/dist/wasm_exec.js ./dist/
-cp ./typescript/jsonnet.ts ./dist/
 
 docker run \
+  -u $(id -u):$(id -g) \
+  -v $(pwd)/src:/src \
   -v $(pwd)/dist:/dist \
-  -v $(pwd)/typescript:/src \
   mcr.microsoft.com/devcontainers/typescript-node:20 \
   bash -c " \
-cp /src/jsonnet.ts /tmp/jsonnet.ts &&
-sed 's/export//' --in-place /tmp/jsonnet.ts &&
-tsc /tmp/jsonnet.ts --outFile /dist/jsonnet-js.js --target es2017
+tsc /src/jsonnet.ts --outDir /dist/ --target es2017 --module commonjs --declaration true &&
+  cp /dist/jsonnet.js /dist/jsonnet-web.js &&
+  sed 's/^.*exports.*$//' --in-place /dist/jsonnet-web.js
   "

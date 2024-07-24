@@ -1,3 +1,6 @@
+"use strict";
+
+
 let jsonnet;
 async function getJsonnet(jnWasm) {
     if (jsonnet) {
@@ -21,3 +24,4 @@ async function getJsonnet(jnWasm) {
     };
     return jsonnet;
 }
+
