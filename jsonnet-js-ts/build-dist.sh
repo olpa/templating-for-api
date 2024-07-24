@@ -8,5 +8,7 @@ docker run \
   -v $(pwd)/dist:/dist \
   mcr.microsoft.com/devcontainers/typescript-node:20 \
   bash -c " \
-tsc /src/jsonnet.ts --outDir /dist/ --target es2017 --module commonjs --declaration true
+tsc /src/jsonnet.ts --outDir /dist/ --target es2017 --module commonjs --declaration true &&
+  cp /dist/jsonnet.js /dist/jsonnet-web.js &&
+  sed 's/^.*exports.*$//' --in-place /dist/jsonnet-web.js
   "
