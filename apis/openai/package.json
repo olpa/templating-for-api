@@ -10,14 +10,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/chai": "^4.3.14",
-    "@types/mocha": "^10.0.6",
-    "chai": "^4.4.1",
-    "mocha": "^10.4.0",
     "tplfa-jsonnet": "file:../../jsonnet-js-ts/dist",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
-    "@types/node": "^20.12.3"
+    "@types/chai": "^4.3.16",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^20.12.3",
+    "chai": "^5.1.1",
+    "mocha": "^10.7.0"
   }
 }
