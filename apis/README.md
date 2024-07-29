@@ -66,3 +66,9 @@ There could be several `type: markdown' objects.
 There is a JSON schema for validation: [./schemas/document.json](./schemas/document.json).
 
 The document structure will be more rich in the future. It will be based on the [ProseMirror's document model](https://prosemirror.net/docs/guide/#doc).
+
+# Using in NPM
+
+```
+npm install https://github.com/olpa/templating-for-api/releases/download/apis-v1.0.0/apis-v1.0.0.tar.gz
+```
