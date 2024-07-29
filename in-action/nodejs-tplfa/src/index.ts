@@ -3,6 +3,8 @@ import yargs from 'yargs';
 import Ajv, { JSONSchemaType } from 'ajv';
 import 'tplfa-jsonnet/wasm_exec.js';
 import { Jsonnet, getJsonnet } from 'tplfa-jsonnet/jsonnet';
+import requestSchema from 'tplfa-apis/schemas/tplfa-request.json'
+import documentSchema from 'tplfa-apis/schemas/tplfa-document.json'
 import { TplfaDocument, TplfaRequest } from '../../../tplfa/lib/types';
 
 interface ToolArguments {
@@ -55,16 +57,8 @@ async function main() {
   );
   const jsonnet = await getJsonnet(jsonnetWasm);
   const ajv = new Ajv();
-  const validateRequest = ajv.compile(
-    JSON.parse(
-      fs.readFileSync(`${__dirname}/../../../tplfa/schemas/request.json`, 'utf8')
-    ) as JSONSchemaType<TplfaRequest>
-  );
-  const validateDocument = ajv.compile(
-    JSON.parse(
-      fs.readFileSync(`${__dirname}/../../../tplfa/schemas/document.json`, 'utf8')
-    ) as JSONSchemaType<TplfaDocument>
-  );
+  const validateRequest = ajv.compile<TplfaRequest>(requestSchema);
+  const validateDocument = ajv.compile<TplfaDocument>(documentSchema);
 
   //
   // Load APIs
