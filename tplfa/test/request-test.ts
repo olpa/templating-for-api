@@ -1,15 +1,13 @@
 import fs from 'fs';
 import chai from 'chai';
 import Ajv, { JSONSchemaType } from 'ajv';
+import schema from 'tplfa-apis/schemas/tplfa-request.json'
 import { TplfaRequest } from '../lib/types';
 
 const ajv = new Ajv();
 
 describe('Request', () => {
-  const schema = JSON.parse(
-    fs.readFileSync(`${__dirname}/../schemas/request.json`, 'utf8')
-  ) as JSONSchemaType<TplfaRequest>;
-  const validate = ajv.compile(schema);
+  const validate = ajv.compile<TplfaRequest>(schema);
 
   const validRequest: TplfaRequest = {
     url: 'https://example.com',
