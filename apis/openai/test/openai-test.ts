@@ -2,6 +2,9 @@ import fs from 'fs';
 import 'tplfa-jsonnet/wasm_exec.js';
 import { Jsonnet, getJsonnet } from 'tplfa-jsonnet/jsonnet';
 import chai from 'chai';
+import fixtureRequest from '../fixture/request.json';
+import fixtureResponse from '../fixture/response.json';
+import fixtureDocument from '../fixture/document.json';
 chai.config.truncateThreshold = 0;
 
 const url = 'https://api.openai.com/v1/chat/completions';
@@ -27,15 +30,12 @@ describe('open ai', () => {
           Authorization: 'Bearer is a secret1',
           'OpenAI-Organization': 'is a secret2',
         },
-        body: {
-          messages: [{role: 'user', content: 'is a prompt'}],
-          model: 'gpt-3.5-turbo',
-        },
+        body: fixtureRequest,
       };
 
     it('happy path', async () => {
       const backStr = await jsonnet.evaluate(requestTpl, {
-        prompt: 'is a prompt',
+        prompt: 'Ping!',
         secret1: 'is a secret1',
         secret2: 'is a secret2',
       });
@@ -46,7 +46,7 @@ describe('open ai', () => {
 
     it('drop second auth header', async () => {
       const backStr = await jsonnet.evaluate(requestTpl, {
-        prompt: 'is a prompt',
+        prompt: 'Ping!',
         secret1: 'is a secret1',
         secret2: '',
       });
@@ -87,39 +87,13 @@ describe('open ai', () => {
   describe('response to document', () => {
     const documentTpl = fs.readFileSync(`${__dirname}/../lib/document-tpl.jsonnet`, 'utf-8');
 
-    const openaiResponseExample = {
-      "id": "chatcmpl-9CKV4SYeEJFiXexesvNDpxp5tfAiI",
-      "object": "chat.completion",
-      "created": 1712725766,
-      "model": "gpt-3.5-turbo-0125",
-      "choices": [
-        {
-          "index": 0,
-          "message": {
-            "role": "assistant",
-            "content": "Pong!"
-          },
-          "logprobs": null,
-          "finish_reason": "stop"
-        }
-      ],
-      "usage": {
-        "prompt_tokens": 8,
-        "completion_tokens": 3,
-        "total_tokens": 11
-      },
-      "system_fingerprint": "fp_b28b39ffa8"
-    }
-
     it('happy path', async () => {
       const doc = JSON.parse(await jsonnet.evaluate(
         documentTpl,
-        { response: JSON.stringify(openaiResponseExample)}
+        { response: JSON.stringify(fixtureResponse)}
       ));
 
-      chai.expect(doc).to.eql({
-        doc: [{ type: 'markdown', content: [{ type: 'text', text: 'Pong!' }] }],
-      });
+      chai.expect(doc).to.eql(fixtureDocument);
     });
   });
 });

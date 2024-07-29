@@ -1,0 +1,8 @@
+{
+  "name": "tplfa-apis",
+  "version": "1.0.0",
+  "description": "APIs for API templating",
+  "keywords": [],
+  "author": "Oleg Parashchenko",
+  "license": "MIT"
+}

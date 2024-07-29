@@ -1,15 +1,13 @@
 import fs from 'fs';
 import chai from 'chai';
 import Ajv, { JSONSchemaType } from 'ajv';
+import schema from 'tplfa-apis/schemas/tplfa-document.json'
 import { TplfaDocument, TplfaMarkdownNode, TplfaTextNode } from '../lib/types';
 
 const ajv = new Ajv();
 
 describe('Request', () => {
-  const schema = JSON.parse(
-    fs.readFileSync(`${__dirname}/../schemas/document.json`, 'utf8')
-  ) as JSONSchemaType<TplfaDocument>;
-  const validate = ajv.compile(schema);
+  const validate = ajv.compile<TplfaDocument>(schema);
 
   it('happy path', () => {
     const validTextNode: TplfaTextNode = { type: 'text', text: 'Hello, world!' };

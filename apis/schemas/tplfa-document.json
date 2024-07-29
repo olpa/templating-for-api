@@ -25,7 +25,7 @@
         "type": {
           "const": "markdown"
         },
-        "doc": {
+        "content": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/TplfaTextNode"
