@@ -4,7 +4,8 @@
   "description": "Templating for APIs",
   "scripts": {
     "test": "jest",
-    "fix": "eslint --fix \"./src/**/*.ts\" \"./test/**/*.ts\" && prettier \"./src/**/*.ts\" \"./test/**/*.ts\" --write"
+    "fix": "eslint --fix \"./src/**/*.ts\" \"./test/**/*.ts\" && prettier \"./src/**/*.ts\" \"./test/**/*.ts\" --write",
+    "build": "./build.sh"
   },
   "author": "Oleg Parashchenko",
   "license": "MIT",
