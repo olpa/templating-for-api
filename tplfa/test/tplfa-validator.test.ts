@@ -1,4 +1,4 @@
-import { TplfaRequest } from '../src/tplfa-types';
+import { TplfaDocument, TplfaRequest } from '../src/tplfa-types';
 import { TplfaValidator } from '../src/tplfa-validator';
 
 describe('tplfa validator', () => {
@@ -55,6 +55,29 @@ describe('tplfa validator', () => {
       expect(validation).toEqual({
         ok: true,
         result: doc,
+      });
+    });
+
+    it('empty document is ok', () => {
+      const emptyDoc: TplfaDocument = { doc: [] };
+
+      const validation = validator.validateTplfaDocument(emptyDoc);
+
+      expect(validation).toEqual({
+        ok: true,
+        result: emptyDoc,
+      });
+    });
+
+    it('reject unknown node type', () => {
+      const invalidNode = { type: 'invalid' as 'markdown', content: [] };
+      const invalidDoc: TplfaDocument = { doc: [invalidNode] };
+
+      const validation = validator.validateTplfaDocument(invalidDoc);
+
+      expect(validation).toEqual({
+        ok: false,
+        error: 'data/doc/0/type must be equal to constant',
       });
     });
   });
