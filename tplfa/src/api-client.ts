@@ -6,7 +6,7 @@ import {
   TplfaDocument,
   TplfaResultOrError,
   TplfaTransformationVars,
-  LoadedTemplate
+  LoadedTemplate,
 } from './tplfa-types';
 import { HttpClient } from './tplfa-http-client';
 

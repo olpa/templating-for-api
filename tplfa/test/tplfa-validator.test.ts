@@ -23,7 +23,11 @@ describe('tplfa validator', () => {
       });
     });
 
-    const required: Array<keyof TplfaRequest> = ['url', 'method', 'body'];
+    const required: Array<keyof TplfaRequest> = [
+      'url',
+      'method',
+      'body',
+    ];
     required.forEach((prop) => {
       it(`missing ${prop}`, () => {
         const invalid = { ...validRequest };
@@ -70,7 +74,10 @@ describe('tplfa validator', () => {
     });
 
     it('reject unknown node type', () => {
-      const invalidNode = { type: 'invalid' as 'markdown', content: [] };
+      const invalidNode = {
+        type: 'invalid' as 'markdown',
+        content: [],
+      };
       const invalidDoc: TplfaDocument = { doc: [invalidNode] };
 
       const validation = validator.validateTplfaDocument(invalidDoc);

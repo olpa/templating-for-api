@@ -4,14 +4,21 @@ import sampleChatResponse from 'tplfa-apis/openai/fixture/response.json';
 import sampleDocument from 'tplfa-apis/openai/fixture/document.json';
 import { TemplatingForApi } from '../src/templating-for-api';
 import { TplfaDocVars, TplfaReqVars } from '../src/tplfa-types';
+
 require('tplfa-jsonnet/wasm_exec.js');
 
 describe('templating-for-api', () => {
   let jsonnet: Jsonnet;
   let tplfa: TemplatingForApi;
 
-  const openaiReqTemplate = fs.readFileSync(require.resolve('tplfa-apis/openai/lib/request-tpl.jsonnet'), 'utf-8');
-  const openaiDocTemplate = fs.readFileSync(require.resolve('tplfa-apis/openai/lib/document-tpl.jsonnet'), 'utf-8');
+  const openaiReqTemplate = fs.readFileSync(
+    require.resolve('tplfa-apis/openai/lib/request-tpl.jsonnet'),
+    'utf-8'
+  );
+  const openaiDocTemplate = fs.readFileSync(
+    require.resolve('tplfa-apis/openai/lib/document-tpl.jsonnet'),
+    'utf-8'
+  );
 
   beforeAll(async () => {
     const jnWasm = fs.readFileSync(

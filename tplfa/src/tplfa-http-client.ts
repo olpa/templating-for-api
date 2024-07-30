@@ -3,7 +3,9 @@ import { TplfaResultOrError } from './tplfa-types';
 export class HttpClient {
   static async query(
     request: Request,
-    fetchFunc: typeof fetch = fetch
+    fetchFunc: typeof fetch = fetch,
+    // eslint-disable-next-line no-console
+    errorLog: typeof console.error = console.error.bind(console)
   ): Promise<TplfaResultOrError<string>> {
     try {
       const resp = await fetchFunc(request);
@@ -19,7 +21,7 @@ export class HttpClient {
         result: await resp.text(),
       };
     } catch (e) {
-      console.error('HttpClient.query error:', e);
+      errorLog('HttpClient.query error:', e);
       return {
         ok: false,
         error:

@@ -8,7 +8,7 @@ import {
   TplfaRequest,
   TplfaResultOrError,
   TplfaTransformationVars,
-  LoadedTemplate
+  LoadedTemplate,
 } from '../src/tplfa-types';
 
 function getTestFetchMock(): FetchMockSandbox {

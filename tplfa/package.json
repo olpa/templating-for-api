@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Templating for APIs",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "fix": "eslint --fix \"./src/**/*.ts\" \"./test/**/*.ts\" && prettier \"./src/**/*.ts\" \"./test/**/*.ts\" --write"
   },
   "author": "Oleg Parashchenko",
   "license": "MIT",
