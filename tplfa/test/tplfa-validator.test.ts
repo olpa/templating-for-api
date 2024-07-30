@@ -1,22 +1,40 @@
+import { TplfaRequest } from '../src/tplfa-types';
 import { TplfaValidator } from '../src/tplfa-validator';
 
 describe('tplfa validator', () => {
   const validator = new TplfaValidator();
 
   describe('validate templating request', () => {
-    it('happy path', () => {
-      const request = {
-        url: 'http://example.com',
-        method: 'POST',
-        body: { foo: 'bar' },
-        headers: { 'Content-Type': 'application/json' },
-      };
+    const validRequest: TplfaRequest = {
+      url: 'https://example.com',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: { foo: 'bar' },
+    };
 
-      const validation = validator.validateTplfaRequest(request);
+    it('happy path', () => {
+      const validation = validator.validateTplfaRequest(validRequest);
 
       expect(validation).toEqual({
         ok: true,
-        result: request,
+        result: validRequest,
+      });
+    });
+
+    const required: Array<keyof TplfaRequest> = ['url', 'method', 'body'];
+    required.forEach((prop) => {
+      it(`missing ${prop}`, () => {
+        const invalid = { ...validRequest };
+        delete invalid[prop];
+
+        const validation = validator.validateTplfaRequest(invalid);
+
+        expect(validation).toEqual({
+          ok: false,
+          error: `data must have required property '${prop}'`,
+        });
       });
     });
   });
