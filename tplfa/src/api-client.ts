@@ -2,11 +2,11 @@ import {
   ITemplatingForApi,
   TemplatingForApi,
 } from './templating-for-api';
-import { LoadedTemplate } from './tplfa-loader';
 import {
   TplfaDocument,
   TplfaResultOrError,
   TplfaTransformationVars,
+  LoadedTemplate
 } from './tplfa-types';
 import { HttpClient } from './tplfa-http-client';
 

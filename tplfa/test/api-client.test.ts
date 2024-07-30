@@ -1,7 +1,6 @@
 import FetchMock, { FetchMockSandbox } from 'fetch-mock';
-import { ApiClient } from './api-client';
-import { ITemplatingForApi } from './templating-for-api';
-import { LoadedTemplate } from './tplfa-loader';
+import { ApiClient } from '../src/api-client';
+import { ITemplatingForApi } from '../src/templating-for-api';
 import {
   TplfaDocVars,
   TplfaDocument,
@@ -9,7 +8,8 @@ import {
   TplfaRequest,
   TplfaResultOrError,
   TplfaTransformationVars,
-} from './tplfa-types';
+  LoadedTemplate
+} from '../src/tplfa-types';
 
 function getTestFetchMock(): FetchMockSandbox {
   const fetchMock = FetchMock.sandbox();

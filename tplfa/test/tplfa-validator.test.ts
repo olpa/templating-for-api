@@ -1,4 +1,4 @@
-import { TplfaValidator } from './tplfa-validator';
+import { TplfaValidator } from '../src/tplfa-validator';
 
 describe('tplfa validator', () => {
   const validator = new TplfaValidator();

@@ -54,3 +54,9 @@ export type TplfaResultOrError<T> =
       error: string;
       details?: string | Record<string, unknown>;
     };
+
+export type LoadedTemplate = {
+  requestTpl: string | undefined;
+  documentTpl: string | undefined;
+  hasDebugFlag?: boolean | undefined;
+};

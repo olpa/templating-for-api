@@ -1,18 +1,23 @@
-import { Jsonnet } from 'tplfa-jsonnet/jsonnet';
-import openaiReqTemplate from 'tplfa-apis/openai/lib/request-tpl.jsonnet';
-import openaiDocTemplate from 'tplfa-apis/openai/lib/document-tpl.jsonnet';
+import fs from 'fs';
+import { getJsonnet, Jsonnet } from 'tplfa-jsonnet/jsonnet';
 import sampleChatResponse from 'tplfa-apis/openai/fixture/response.json';
 import sampleDocument from 'tplfa-apis/openai/fixture/document.json';
-import { TemplatingForApi } from './templating-for-api';
-import { TplfaDocVars, TplfaReqVars } from './tplfa-types';
-import { getTestJsonnet } from '../test/utils';
+import { TemplatingForApi } from '../src/templating-for-api';
+import { TplfaDocVars, TplfaReqVars } from '../src/tplfa-types';
+require('tplfa-jsonnet/wasm_exec.js');
 
 describe('templating-for-api', () => {
   let jsonnet: Jsonnet;
   let tplfa: TemplatingForApi;
 
+  const openaiReqTemplate = fs.readFileSync(require.resolve('tplfa-apis/openai/lib/request-tpl.jsonnet'), 'utf-8');
+  const openaiDocTemplate = fs.readFileSync(require.resolve('tplfa-apis/openai/lib/document-tpl.jsonnet'), 'utf-8');
+
   beforeAll(async () => {
-    jsonnet = await getTestJsonnet();
+    const jnWasm = fs.readFileSync(
+      require.resolve('tplfa-jsonnet/libjsonnet.wasm')
+    );
+    jsonnet = await getJsonnet(jnWasm);
     tplfa = new TemplatingForApi(jsonnet);
   });
 
