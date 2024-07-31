@@ -90,6 +90,7 @@ async function main() {
       result: {
         requestTpl: readFileNoExc(`${templatePath}/request-tpl.jsonnet`),
         documentTpl: readFileNoExc(`${templatePath}/document-tpl.jsonnet`),
+        hasDebugFlag: argv.debug,
       }
     }
   }

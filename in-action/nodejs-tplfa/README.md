@@ -15,6 +15,7 @@ export OPENAI_API_KEY=....
 Options:
 
 - `--help`
+- `--debug`
 - `--secret1`: default is the value of the environment variable `OPENAI_API_KEY`
 - `--secret2`
 - `--prompt`
