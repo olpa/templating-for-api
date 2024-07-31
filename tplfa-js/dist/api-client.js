@@ -1,6 +1,6 @@
 "use strict";
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ApiClient = void 0;
 const templating_for_api_1 = require("./templating-for-api");
 const tplfa_http_client_1 = require("./tplfa-http-client");
 function findLast(arr, predP) {
@@ -117,4 +117,4 @@ class ApiClient {
         return doc;
     }
 }
-
+exports.ApiClient = ApiClient;

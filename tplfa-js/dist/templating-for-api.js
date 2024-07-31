@@ -1,9 +1,8 @@
 "use strict";
-
-
-const tplfa_validator_1 = require("./tplfa-validator");
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TemplatingForApi = void 0;
 class TemplatingForApi {
-    constructor(jsonnet, validator = new tplfa_validator_1.TplfaValidator()) {
+    constructor(jsonnet, validator) {
         this.jsonnet = jsonnet;
         this.validator = validator;
     }
@@ -94,4 +93,4 @@ class TemplatingForApi {
         }
     }
 }
-
+exports.TemplatingForApi = TemplatingForApi;

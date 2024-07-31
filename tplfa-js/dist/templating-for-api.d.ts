@@ -8,7 +8,7 @@ export interface ITemplatingForApi {
 export declare class TemplatingForApi implements ITemplatingForApi {
     private readonly jsonnet;
     private readonly validator;
-    constructor(jsonnet: Jsonnet, validator?: TplfaValidator);
+    constructor(jsonnet: Jsonnet, validator: TplfaValidator);
     toTplfaRequest(codeName: string, requestTemplate: string, reqVars: TplfaReqVars, debugLog?: (...msg: unknown[]) => void): Promise<TplfaResultOrError<TplfaRequest>>;
     static toRequest(req: TplfaRequest): Request;
     toDocument(codeName: string, apiTemplate: string, docVars: TplfaDocVars, debugLog?: (...msg: unknown[]) => void): Promise<TplfaResultOrError<TplfaDocument>>;

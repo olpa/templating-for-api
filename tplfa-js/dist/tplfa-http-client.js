@@ -1,6 +1,6 @@
 "use strict";
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.HttpClient = void 0;
 class HttpClient {
     static async query(request, fetchFunc = fetch, 
     // eslint-disable-next-line no-console
@@ -30,4 +30,4 @@ class HttpClient {
         }
     }
 }
-
+exports.HttpClient = HttpClient;

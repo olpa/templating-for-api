@@ -2,8 +2,8 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TplfaValidator = void 0;
 const ajv_1 = __importDefault(require("ajv"));
 const tplfa_request_json_1 = __importDefault(require("tplfa-apis/schemas/tplfa-request.json"));
 const tplfa_document_json_1 = __importDefault(require("tplfa-apis/schemas/tplfa-document.json"));
@@ -33,4 +33,4 @@ class TplfaValidator {
         return this.validate(request, this.document);
     }
 }
-
+exports.TplfaValidator = TplfaValidator;
