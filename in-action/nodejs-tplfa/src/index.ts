@@ -2,7 +2,10 @@ import fs from 'fs';
 import yargs from 'yargs';
 import 'tplfa-jsonnet/wasm_exec.js';
 import { Jsonnet, getJsonnet } from 'tplfa-jsonnet/jsonnet';
-import { TplfaDocument, TplfaRequest } from 'tplfa/tplfa-types';
+import { TplfaDocument, TplfaRequest, LoadedTemplate, TplfaResultOrError } from 'tplfa/tplfa-types';
+import { TplfaValidator } from 'tplfa/tplfa-validator';
+import { TemplatingForApi } from 'tplfa/templating-for-api';
+import { ApiClient } from 'tplfa/api-client';
 
 interface ToolArguments {
   api: string[];
@@ -53,7 +56,7 @@ async function main() {
     console.log("Specify at least on API");
     process.exit(-1);
   }
-  const chain = argv.api.map((templatePath) => {{
+  const chain = argv.api.map((templatePath) => { return {
     templatePath,
     secret1: argv.secret1,
     secret2: argv.secret2,
@@ -70,14 +73,24 @@ async function main() {
   const tplfa = new TemplatingForApi(jsonnet, validator);
 
   //
-  // API loader
+  // API template loader
   //
-  function templateLoader(
+  async function templateLoader(
     templatePath: string
-  ) => Promise<TplfaResultOrError<LoadedTemplate>> {
+  ): Promise<TplfaResultOrError<LoadedTemplate>> {
+    function readFileNoExc(path: string): string | undefined {
+      try {
+        return fs.readFileSync(path, 'utf-8');
+      } catch {
+        return undefined;
+      }
+    }
     return {
-      requestTpl: fs.readFileSync(`${templatePath}/request-tpl.jsonnet`, 'utf-8'),
-      documentTpl: fs.readFileSync(`${templatePath}/document-tpl.jsonnet`, 'utf-8'),
+      ok: true,
+      result: {
+        requestTpl: readFileNoExc(`${templatePath}/request-tpl.jsonnet`),
+        documentTpl: readFileNoExc(`${templatePath}/document-tpl.jsonnet`),
+      }
     }
   }
 
@@ -90,7 +103,7 @@ async function main() {
     templateLoader,
     console.log.bind(console)
   );
-  const doc = apiClient.call(chain, argv.prompt)
+  const doc = await apiClient.call(chain, argv.prompt)
 
   //
   // Print the result
