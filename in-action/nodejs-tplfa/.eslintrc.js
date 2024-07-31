@@ -21,6 +21,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'error',
     'import/prefer-default-export': 'off',
     'prettier/prettier': ['error'],
+    'no-console': ['off'],
   },
   root: true,
   settings: {
