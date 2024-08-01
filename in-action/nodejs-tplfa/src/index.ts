@@ -1,11 +1,11 @@
 import fs from 'fs';
 import yargs from 'yargs';
-import Ajv, { JSONSchemaType } from 'ajv';
 import 'tplfa-jsonnet/wasm_exec.js';
-import { Jsonnet, getJsonnet } from 'tplfa-jsonnet/jsonnet';
-import requestSchema from 'tplfa-apis/schemas/tplfa-request.json'
-import documentSchema from 'tplfa-apis/schemas/tplfa-document.json'
-import { TplfaDocument, TplfaRequest } from '../../../tplfa/lib/types';
+import { getJsonnet } from 'tplfa-jsonnet/jsonnet';
+import { LoadedTemplate, TplfaResultOrError } from 'tplfa/tplfa-types';
+import { TplfaValidator } from 'tplfa/tplfa-validator';
+import { TemplatingForApi } from 'tplfa/templating-for-api';
+import { ApiClient } from 'tplfa/api-client';
 
 interface ToolArguments {
   api: string[];
@@ -15,10 +15,13 @@ interface ToolArguments {
   debug: boolean;
 }
 
-async function parseCommandLine(): Promise<yargs.Arguments<ToolArguments>> {
-  return await yargs
+async function parseCommandLine(): Promise<
+  yargs.Arguments<ToolArguments>
+> {
+  return yargs
     .option('api', {
-      describe: 'Path to the api dir with files `request-tpl.jsonnet` and `document-tpl.jsonnet`',
+      describe:
+        'Path to the api dir with files `request-tpl.jsonnet` and `document-tpl.jsonnet`',
       demandOption: true,
       type: 'string',
       array: true,
@@ -26,28 +29,42 @@ async function parseCommandLine(): Promise<yargs.Arguments<ToolArguments>> {
     .option('prompt', {
       describe: 'Prompt value',
       default: 'ping',
-      type: 'string'
+      type: 'string',
     })
     .option('secret1', {
       describe: 'Secret value 1',
       default: process.env.OPENAI_API_KEY ?? '',
-      type: 'string'
+      type: 'string',
     })
     .option('secret2', {
       describe: 'Secret value 2',
       default: '',
-      type: 'string'
+      type: 'string',
     })
     .option('debug', {
       describe: 'Print results of transformations',
       default: false,
-      type: 'boolean'
-    })
-    .argv;
+      type: 'boolean',
+    }).argv;
 }
 
-async function main() {
+async function main(): Promise<void> {
   const argv = await parseCommandLine();
+
+  //
+  // Chain of APIs
+  //
+  if (!argv.api.length) {
+    console.log('Specify at least on API');
+    process.exit(-1);
+  }
+  const chain = argv.api.map((templatePath) => {
+    return {
+      templatePath,
+      secret1: argv.secret1,
+      secret2: argv.secret2,
+    };
+  });
 
   //
   // Load runtime
@@ -56,95 +73,54 @@ async function main() {
     require.resolve('tplfa-jsonnet/libjsonnet.wasm')
   );
   const jsonnet = await getJsonnet(jsonnetWasm);
-  const ajv = new Ajv();
-  const validateRequest = ajv.compile<TplfaRequest>(requestSchema);
-  const validateDocument = ajv.compile<TplfaDocument>(documentSchema);
+  const validator = new TplfaValidator();
+  const tplfa = new TemplatingForApi(jsonnet, validator);
 
   //
-  // Load APIs
+  // API template loader
   //
-  function readFileNoExc(path: string): string | undefined {
-    try {
-      return fs.readFileSync(path, 'utf-8');
-    } catch {
-      return undefined;
+  async function templateLoader(
+    templatePath: string
+  ): Promise<TplfaResultOrError<LoadedTemplate>> {
+    function readFileNoExc(path: string): string | undefined {
+      try {
+        return fs.readFileSync(path, 'utf-8');
+      } catch {
+        return undefined;
+      }
     }
-  }
-  const reqTpls: string[] = argv.api.map(
-    (api) => readFileNoExc(`${api}/request-tpl.jsonnet`)
-  ).filter((c): c is string => !!c);
-  const docTpls = argv.api.map(
-    (api) => readFileNoExc(`${api}/document-tpl.jsonnet`)
-  ).filter((c): c is string => !!c);
-  docTpls.reverse();
-
-  //
-  // Build a request
-  //
-  async function nextReqTemplate(reqSoFar: Promise<string>, codeTpl: string, i: number): Promise<string> {
-    const step = await jsonnet.evaluate(codeTpl, {
-      parent: await reqSoFar,
-      prompt: argv.prompt,
-      secret1: argv.secret1,
-      secret2: argv.secret2
-    })
-    if (argv.debug) {
-      console.log(`tplfa: templated request [${i}]:\n${step}`);
-    }
-    return step;
-  }
-  const reqStr = await reqTpls.reduce(nextReqTemplate, Promise.resolve('{}'));
-
-  const req = JSON.parse(reqStr);
-  if (!validateRequest(req)) {
-    console.log(`tplfa: invalid request:\nRequest: ${reqStr}\nErrors:j ${validateRequest.errors}`);
-    return;
+    return {
+      ok: true,
+      result: {
+        requestTpl: readFileNoExc(
+          `${templatePath}/request-tpl.jsonnet`
+        ),
+        documentTpl: readFileNoExc(
+          `${templatePath}/document-tpl.jsonnet`
+        ),
+        hasDebugFlag: argv.debug,
+      },
+    };
   }
 
   //
-  // Make an API call
+  // Run the chain
   //
-  const url = req.url;
-  const fetchParams = {
-    ...req,
-    url: undefined,
-    body: JSON.stringify(req.body),
-  };
-  const respObj = await fetch(url, fetchParams);
-  const resp = await respObj.text();
-
-  if (argv.debug || !respObj.ok) {
-    console.log(`tplfa: response from the api:\n${resp}`);
-    if (!respObj.ok) {
-      console.log(`tplfa: error code: ${respObj.status}`);
-      return;
-    }
-  }
+  const apiClient = new ApiClient(
+    fetch,
+    tplfa,
+    templateLoader,
+    console.log.bind(console)
+  );
+  const doc = await apiClient.call(chain, argv.prompt);
 
   //
-  // Transform the response to a document
+  // Print the result
   //
-  async function nextDocTemplate(respSoFar: Promise<string>, codeTpl: string, i: number): Promise<string> {
-    const step = await jsonnet.evaluate(codeTpl, {
-      response: await respSoFar,
-    })
-    if (argv.debug) {
-      console.log(`tplfa: templated response [${i}]:\n${step}`);
-    }
-    return step;
-  }
-  const docStr = await docTpls.reduce(nextDocTemplate, Promise.resolve(resp));
-
-  const doc = JSON.parse(docStr);
-  function printDocument(doc: TplfaDocument) {
-    console.log('tplfa: templated document:');
-    console.log(JSON.stringify(doc, undefined, 2));
-  }
-  printDocument(doc);
-
-  if (!validateDocument(doc)) {
-    console.log('tplfa: invalid document:', validateDocument.errors);
-    return;
+  if (doc.ok) {
+    console.log(JSON.stringify(doc.result, undefined, 2));
+  } else {
+    console.log(doc);
   }
 }
 

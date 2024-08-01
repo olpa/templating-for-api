@@ -4,14 +4,14 @@
   "description": "",
   "scripts": {
     "run": "ts-node src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "fix": "eslint --fix \"./src/*.ts\" && prettier \"./src/*.ts\" --write"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/ajv": "^1.0.0",
     "ajv": "^8.12.0",
+    "tplfa": "file:../../tplfa-js/dist",
     "tplfa-apis": "file:../../apis/dist",
     "tplfa-jsonnet": "file:../../jsonnet-js-ts/dist",
     "ts-node": "^10.9.2",
@@ -19,6 +19,10 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@types/yargs": "^17.0.32"
+    "@types/yargs": "^17.0.32",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-typescript": "^18.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1"
   }
 }

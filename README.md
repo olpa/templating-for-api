@@ -11,14 +11,16 @@ Tplfa is a part of [Gewova collaborative prompt engineering](https://gewova.com/
 # In action
 
 ```
-cd in-action/nodejs-cli/
+cd in-action/nodejs-tplfa/
+npm ci
+
 export OPENAI_API_KEY=...
 npx ts-node src/index.ts --debug \
   --api ../../apis/openai/lib \
   --prompt "Tell me a joke about APIs."
 ```
 
-The prompt is converted to a fetch-object:
+According to the debug log, the prompt is converted to a fetch-object:
 
 ```
 {
@@ -60,6 +62,8 @@ The response from OpenAI is converted to the document representation:
 
 # APIs
 
+[./apis/](./apis/).
+
 At the moment, there is only a template for [OpenAI chat completion](https://platform.openai.com/docs/api-reference/chat).
 
 ## How to contribute an API
@@ -71,14 +75,17 @@ At the moment, there is only a template for [OpenAI chat completion](https://pla
 
 There are official libraries for Python, Go, C and C++, plus unofficial third-party bindings: <https://jsonnet.org/ref/bindings.html>.
 
-This repository `templating-for-api` provides JavaScript and TypeScript bindings to `jsonnet` through WebAssembly compilation.
+For JavaScript and TypeScript, this repository provides:
+
+- bindings to `jsonnet` through WebAssembly compilation,
+- utilities for templating
 
 # Contents
 
-- [./apis/](./apis/): API definitions
+- [./apis/](./apis/): API definitions and JSON validation schemas
 - [./jsonnet-wasm/](./jsonnet-wasm/): WebAssembly version of Jsonnet
 - [./jsonnet-js-ts/](./jsonnet-js-ts/): Javascript and Typescript bindings
 - [./in-action/web-jsonnet/](./in-action/web-jsonnet/): Using jsonnet in a browser
 - [./in-action/nodejs-jsonnet/](./in-action/nodejs-jsonnet/): Using jsonnet in Node.js
-- [./tplfa/](./tplfa/): JSON validation schemas for template output
+- [./tplfa-js/](./tplfa-js/): JS/TS utilities for templating
 - [./in-action/nodejs-tplfa/](./in-action/nodejs-tplfa/): Command-like tool to run templates and use APIs
