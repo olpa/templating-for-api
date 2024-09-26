@@ -9,10 +9,12 @@ chai.config.truncateThreshold = 0;
 
 const url = 'https://api.openai.com/v1/chat/completions';
 
+const libDir = `${__dirname}/../../lib`;
+
 describe('open ai', () => {
   let jsonnet: Jsonnet;
   const libFiles = {
-    'openai-request-tpl.jsonnet': fs.readFileSync(`${__dirname}/../../lib/openai-request-tpl.jsonnet`, 'utf-8'),
+    'openai-request-tpl.jsonnet': fs.readFileSync(`${libDir}/openai-request-tpl.jsonnet`, 'utf-8'),
   }
 
   before(async () => {
@@ -88,7 +90,7 @@ describe('open ai', () => {
   });
 
   describe('response to document', () => {
-    const documentTpl = fs.readFileSync(`${__dirname}/../lib/document-tpl.jsonnet`, 'utf-8');
+    const documentTpl = fs.readFileSync(`${libDir}/openai-document-tpl.jsonnet`, 'utf-8');
 
     it('happy path', async () => {
       const doc = JSON.parse(await jsonnet.evaluate(
