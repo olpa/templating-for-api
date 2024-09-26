@@ -5,7 +5,7 @@ import chai from 'chai';
 import fixtureRequest from '../../openai/fixture/request.json';
 chai.config.truncateThreshold = 0;
 
-const url = 'https://api.openai.com/v1/chat/completions';
+const url = 'https://api.anthropic.com/v1/messages';
 
 describe('open ai', () => {
   let jsonnet: Jsonnet;
@@ -18,7 +18,8 @@ describe('open ai', () => {
   });
 
   describe('make request', () => {
-    const templateRequestTpl = fs.readFileSync(`${__dirname}/../../shared/openai-request-tpl.jsonnet`, 'utf-8');
+    const libFileName = 'openai-request-tpl.jsonnet'
+    const libRequestTpl = fs.readFileSync(`${__dirname}/../../shared/${libFileName}`, 'utf-8');
     const requestTpl = fs.readFileSync(`${__dirname}/../lib/request-tpl.jsonnet`, 'utf-8');
 
     const expectedInHappyPath = {
@@ -27,8 +28,13 @@ describe('open ai', () => {
         headers: {
           'Content-type': 'application/json',
           'X-api-key': 'is a secret1',
+          'Anthropic-version': '2023-06-01',
         },
-        body: fixtureRequest,
+        body: {
+          ...fixtureRequest,
+          model: 'claude-3-5-sonnet-20240620',
+          max_tokens: 1024,
+        }
       };
 
     it('happy path', async () => {
@@ -36,9 +42,9 @@ describe('open ai', () => {
         prompt: 'Ping!',
         secret1: 'is a secret1',
         secret2: 'is a secret2',
-      }, { "openai-request-tpl.jsonnet": templateRequestTpl });
-      const back = JSON.parse(backStr);
+      }, { [libFileName]: libRequestTpl });
 
+      const back = JSON.parse(backStr);
       chai.expect(back).to.eql(expectedInHappyPath);
     });
   });
