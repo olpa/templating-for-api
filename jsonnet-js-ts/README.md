@@ -27,7 +27,7 @@ jsonnet = await getJsonnet(jsonnetWasm);
 The object `jsonnet` provides two functions:
 
 - `jsonnet_evaluate_snippet`: Wrapper for the corresponding jsonnet library function
-- `evaluate`: Simplified interface. Only code and its external variables
+- `evaluate`: Simplified interface. Only code, its external variables, and library files
 
 Compatibility note:
 

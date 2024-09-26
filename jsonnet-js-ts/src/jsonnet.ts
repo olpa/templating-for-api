@@ -11,7 +11,8 @@ export type Jsonnet = {
 
   evaluate: (
     code: string,
-    extrStrs?: Record<string, string>
+    extrStrs?: Record<string, string>,
+    files?: Record<string, string>,
   ) => Promise<string>;
 };
 
@@ -47,13 +48,14 @@ export async function getJsonnet(
 
   async function evaluate(
     code: string,
-    vars?: Record<string, string>
+    vars?: Record<string, string>,
+    files: Record<string, string> = {},
   ): Promise<string> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return jsonnet_evaluate_snippet!(
       'anonymous',
       code,
-      { anonymous: code },
+      { ...files, anonymous: code },
       vars ?? {},
       {},
       {},
