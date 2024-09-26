@@ -19,7 +19,7 @@ describe('open ai', () => {
 
   describe('make request', () => {
     const libFileName = 'openai-request-tpl.jsonnet'
-    const libRequestTpl = fs.readFileSync(`${__dirname}/../../shared/${libFileName}`, 'utf-8');
+    const libRequestTpl = fs.readFileSync(`${__dirname}/../../lib/${libFileName}`, 'utf-8');
     const requestTpl = fs.readFileSync(`${__dirname}/../lib/request-tpl.jsonnet`, 'utf-8');
 
     const expectedInHappyPath = {
