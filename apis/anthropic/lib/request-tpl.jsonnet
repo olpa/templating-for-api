@@ -1,6 +1,6 @@
-local openai = import 'openai-request-tpl.jsonnet';
+local openai = import "openai-request-tpl.jsonnet";
 
-openai.run('https://api.anthropic.com/v1/messages', 'key') + {
+openai.run("https://api.anthropic.com/v1/messages", "key") + {
   headers+: {
     "Anthropic-version": "2023-06-01",
   },

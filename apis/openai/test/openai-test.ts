@@ -11,6 +11,9 @@ const url = 'https://api.openai.com/v1/chat/completions';
 
 describe('open ai', () => {
   let jsonnet: Jsonnet;
+  const libFiles = {
+    'openai-request-tpl.jsonnet': fs.readFileSync(`${__dirname}/../../lib/openai-request-tpl.jsonnet`, 'utf-8'),
+  }
 
   before(async () => {
     const jsonnetWasm = await fs.promises.readFile(
@@ -38,7 +41,7 @@ describe('open ai', () => {
         prompt: 'Ping!',
         secret1: 'is a secret1',
         secret2: 'is a secret2',
-      });
+      }, libFiles);
       const back = JSON.parse(backStr);
 
       chai.expect(back).to.eql(expectedInHappyPath);
@@ -49,7 +52,7 @@ describe('open ai', () => {
         prompt: 'Ping!',
         secret1: 'is a secret1',
         secret2: '',
-      });
+      }, libFiles);
       const back = JSON.parse(backStr);
 
       chai.expect(back).to.eql({
@@ -69,7 +72,7 @@ describe('open ai', () => {
 
       const backStr = await jsonnet.evaluate(patchTpl, {
         parent: JSON.stringify(expectedInHappyPath),
-      });
+      }, libFiles);
       const back = JSON.parse(backStr);
 
       chai.expect(back).to.eql({
