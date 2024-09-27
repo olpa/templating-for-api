@@ -15,6 +15,38 @@ npm ci # once to setup the test project
 npm test # run tests
 ```
 
+## Sample run
+
+Using [jsonnet](https://jsonnet.org/) command-line tool:
+
+```
+jsonnet --jpath ./lib ./openai/lib/request-tpl.jsonnet -V prompt=hello \
+    -V secret1=TOKEN -V secret2=orgid
+```
+
+Output:
+
+```
+{
+   "body": {
+      "messages": [
+         {
+            "content": "hello",
+            "role": "user"
+         }
+      ],
+      "model": "gpt-3.5-turbo"
+   },
+   "headers": {
+      "Authorization": "Bearer TOKEN",
+      "Content-type": "application/json",
+      "OpenAI-Organization": "orgid"
+   },
+   "method": "POST",
+   "url": "https://api.openai.com/v1/chat/completions"
+}
+```
+
 ## Request templates
 
 Input:
@@ -70,5 +102,5 @@ The document structure will be more rich in the future. It will be based on the 
 # Using in NPM
 
 ```
-npm install https://github.com/olpa/templating-for-api/releases/download/apis-v1.0.0/apis-v1.0.0.tar.gz
+npm install https://github.com/olpa/templating-for-api/releases/download/apis-v1.1.0/apis-v1.1.0.tar.gz
 ```
