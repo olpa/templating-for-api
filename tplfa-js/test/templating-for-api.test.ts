@@ -24,15 +24,19 @@ describe('templating-for-api', () => {
     'openai-request-tpl.jsonnet': fs.readFileSync(
       require.resolve('tplfa-apis/lib/openai-request-tpl.jsonnet'),
       'utf-8'
-    )
-  }
+    ),
+  };
 
   beforeAll(async () => {
     const jnWasm = fs.readFileSync(
       require.resolve('tplfa-jsonnet/libjsonnet.wasm')
     );
     jsonnet = await getJsonnet(jnWasm);
-    tplfa = new TemplatingForApi(jsonnet, new TplfaValidator(), libFiles);
+    tplfa = new TemplatingForApi(
+      jsonnet,
+      new TplfaValidator(),
+      libFiles
+    );
   });
 
   describe('toRequest', () => {
