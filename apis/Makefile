@@ -11,3 +11,14 @@ dist: $(ALL_DIST_FILES)
 ./dist/%: %
 	mkdir -p $(dir $@)
 	cp $< $@
+
+# --
+
+TEST_DIRS := $(dir $(wildcard */test))
+
+TEST_TRIGGERS := $(addsuffix .test-trigger, $(TEST_DIRS))
+
+test: $(TEST_TRIGGERS)
+
+%.test-trigger:
+	cd $(dir $@) && npm test
