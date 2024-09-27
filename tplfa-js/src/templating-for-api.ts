@@ -27,7 +27,7 @@ export class TemplatingForApi implements ITemplatingForApi {
   constructor(
     private readonly jsonnet: Jsonnet,
     private readonly validator: TplfaValidator,
-    private readonly jsonnetLibFiles: Record<string, string>,
+    private readonly jsonnetLibFiles: Record<string, string>
   ) {}
 
   async toTplfaRequest(
