@@ -1,9 +1,13 @@
+LIB_FILES :=$(wildcard lib/*.jsonnet)
+
 OPENAI_FILES := $(wildcard openai/lib/*.jsonnet) \
   $(wildcard openai/fixture/*.json)
 
 SCHEMA_FILES := $(wildcard schemas/*.json)
 
-ALL_FILES := $(OPENAI_FILES) $(SCHEMA_FILES)
+ANTHROPIC_FILES := $(wildcard anthropic/lib/*.jsonnet)
+
+ALL_FILES := README.md $(SCHEMA_FILES) $(LIB_FILES) $(OPENAI_FILES) $(ANTHROPIC_FILES)
 ALL_DIST_FILES := $(addprefix dist/, $(ALL_FILES))
 
 dist: $(ALL_DIST_FILES)
