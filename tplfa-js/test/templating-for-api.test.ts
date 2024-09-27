@@ -2,6 +2,7 @@ import fs from 'fs';
 import { getJsonnet, Jsonnet } from 'tplfa-jsonnet/jsonnet';
 import sampleChatResponse from 'tplfa-apis/openai/fixture/response.json';
 import sampleDocument from 'tplfa-apis/openai/fixture/document.json';
+import { TplfaValidator } from '../src/tplfa-validator';
 import { TemplatingForApi } from '../src/templating-for-api';
 import { TplfaDocVars, TplfaReqVars } from '../src/tplfa-types';
 
@@ -16,16 +17,22 @@ describe('templating-for-api', () => {
     'utf-8'
   );
   const openaiDocTemplate = fs.readFileSync(
-    require.resolve('tplfa-apis/openai/lib/document-tpl.jsonnet'),
+    require.resolve('tplfa-apis/lib/openai-document-tpl.jsonnet'),
     'utf-8'
   );
+  const libFiles = {
+    'openai-request-tpl.jsonnet': fs.readFileSync(
+      require.resolve('tplfa-apis/lib/openai-request-tpl.jsonnet'),
+      'utf-8'
+    )
+  }
 
   beforeAll(async () => {
     const jnWasm = fs.readFileSync(
       require.resolve('tplfa-jsonnet/libjsonnet.wasm')
     );
     jsonnet = await getJsonnet(jnWasm);
-    tplfa = new TemplatingForApi(jsonnet);
+    tplfa = new TemplatingForApi(jsonnet, new TplfaValidator(), libFiles);
   });
 
   describe('toRequest', () => {
