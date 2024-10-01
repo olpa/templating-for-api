@@ -2,9 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TemplatingForApi = void 0;
 class TemplatingForApi {
-    constructor(jsonnet, validator) {
+    constructor(jsonnet, validator, libTemplates) {
         this.jsonnet = jsonnet;
         this.validator = validator;
+        this.libTemplates = libTemplates;
     }
     async toTplfaRequest(codeName, requestTemplate, reqVars, debugLog) {
         let error;
@@ -19,7 +20,7 @@ class TemplatingForApi {
         }
         try {
             error = `${errorPrefix}: Failed to execute`;
-            const reqStr = await this.jsonnet.evaluate(requestTemplate, reqVars);
+            const reqStr = await this.jsonnet.evaluate(requestTemplate, reqVars, this.libTemplates);
             if (debugLog) {
                 debugLog('tplfa toRequest output [name, output]', codeName, reqStr);
             }
@@ -69,7 +70,7 @@ class TemplatingForApi {
         }
         try {
             error = `${errorPrefix}: Failed to execute`;
-            const transformed = await this.jsonnet.evaluate(apiTemplate, docVars);
+            const transformed = await this.jsonnet.evaluate(apiTemplate, docVars, this.libTemplates);
             if (debugLog) {
                 debugLog('tplfa toDocument output [name, output]', codeName, transformed);
             }

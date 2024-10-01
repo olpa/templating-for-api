@@ -47,3 +47,7 @@ export type LoadedTemplate = {
     documentTpl: string | undefined;
     hasDebugFlag?: boolean | undefined;
 };
+export type LibTemplates = {
+    'openai-document-tpl.jsonnet': string;
+    'openai-request-tpl.jsonnet': string;
+};
