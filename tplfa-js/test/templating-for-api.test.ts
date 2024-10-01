@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import { getJsonnet, Jsonnet } from 'tplfa-jsonnet/jsonnet';
 import sampleChatResponse from 'tplfa-apis/openai/fixture/response.json';
 import sampleDocument from 'tplfa-apis/openai/fixture/document.json';
@@ -10,6 +11,7 @@ import {
   LibTemplates,
 } from '../src/tplfa-types';
 import {
+  getApisDir,
   DefinedLoadedTemplate,
   loadLibTemplates,
   loadTemplate,
@@ -25,7 +27,8 @@ describe('templating-for-api', () => {
 
   beforeAll(async () => {
     libTemplates = await loadLibTemplates();
-    template = await loadTemplate('openai', libTemplates);
+    const openaiPath = path.join(getApisDir(), 'openai', 'lib');
+    template = await loadTemplate(openaiPath, libTemplates);
 
     const jnWasm = fs.readFileSync(
       require.resolve('tplfa-jsonnet/libjsonnet.wasm')

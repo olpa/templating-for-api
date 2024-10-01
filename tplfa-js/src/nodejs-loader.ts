@@ -2,7 +2,7 @@ import path from 'path';
 import { promises as fs } from 'fs';
 import { LoadedTemplate, LibTemplates } from './tplfa-types';
 
-function getApisDir(): string {
+export function getApisDir(): string {
   const rootFile = require.resolve('tplfa-apis/package.json');
   return path.dirname(rootFile);
 }
@@ -27,10 +27,9 @@ export type DefinedLoadedTemplate = {
 };
 
 export async function loadTemplate(
-  tname: string,
+  tplPath: string,
   libTemplates: LibTemplates
 ): Promise<DefinedLoadedTemplate> {
-  const apisDir = getApisDir();
   const toLoad: Array<
     [keyof LoadedTemplate, string, keyof LibTemplates]
   > = [
@@ -42,7 +41,7 @@ export async function loadTemplate(
     ],
   ];
   const loaded = toLoad.map(async ([field, fnameBase, libField]) => {
-    const fname = path.join(apisDir, tname, 'lib', fnameBase);
+    const fname = path.join(tplPath, fnameBase);
     try {
       const code = await fs.readFile(fname, 'utf-8');
       return [field, code];

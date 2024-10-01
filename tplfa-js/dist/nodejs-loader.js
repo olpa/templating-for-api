@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getApisDir = getApisDir;
 exports.loadLibTemplates = loadLibTemplates;
 exports.loadTemplate = loadTemplate;
 const path_1 = __importDefault(require("path"));
@@ -23,8 +24,7 @@ async function loadLibTemplates() {
     ]);
     return Object.fromEntries(await Promise.all(loaded));
 }
-async function loadTemplate(tname, libTemplates) {
-    const apisDir = getApisDir();
+async function loadTemplate(tplPath, libTemplates) {
     const toLoad = [
         ['requestTpl', 'request-tpl.jsonnet', 'openai-request-tpl.jsonnet'],
         [
@@ -34,7 +34,7 @@ async function loadTemplate(tname, libTemplates) {
         ],
     ];
     const loaded = toLoad.map(async ([field, fnameBase, libField]) => {
-        const fname = path_1.default.join(apisDir, tname, 'lib', fnameBase);
+        const fname = path_1.default.join(tplPath, fnameBase);
         try {
             const code = await fs_1.promises.readFile(fname, 'utf-8');
             return [field, code];
