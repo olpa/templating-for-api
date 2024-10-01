@@ -4,8 +4,16 @@ import sampleChatResponse from 'tplfa-apis/openai/fixture/response.json';
 import sampleDocument from 'tplfa-apis/openai/fixture/document.json';
 import { TplfaValidator } from '../src/tplfa-validator';
 import { TemplatingForApi } from '../src/templating-for-api';
-import { TplfaDocVars, TplfaReqVars, LibTemplates } from '../src/tplfa-types';
-import { DefinedLoadedTemplate, loadLibTemplates, loadTemplate } from '../src/nodejs-loader';
+import {
+  TplfaDocVars,
+  TplfaReqVars,
+  LibTemplates,
+} from '../src/tplfa-types';
+import {
+  DefinedLoadedTemplate,
+  loadLibTemplates,
+  loadTemplate,
+} from '../src/nodejs-loader';
 
 require('tplfa-jsonnet/wasm_exec.js');
 
@@ -14,7 +22,6 @@ describe('templating-for-api', () => {
   let tplfa: TemplatingForApi;
   let template: DefinedLoadedTemplate;
   let libTemplates: LibTemplates;
-
 
   beforeAll(async () => {
     libTemplates = await loadLibTemplates();
@@ -111,7 +118,7 @@ describe('templating-for-api', () => {
         'tplfa toRequest input [name, vars, code]',
         'test code',
         vars,
-        template.requestTpl,
+        template.requestTpl
       );
       expect(logMock).toHaveBeenNthCalledWith(
         2,
@@ -200,7 +207,7 @@ describe('templating-for-api', () => {
         'tplfa toDocument input [name, vars, code]',
         'test code',
         vars,
-        template.documentTpl,
+        template.documentTpl
       );
       expect(logMock).toHaveBeenNthCalledWith(
         2,
