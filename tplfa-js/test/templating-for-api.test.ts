@@ -4,30 +4,22 @@ import sampleChatResponse from 'tplfa-apis/openai/fixture/response.json';
 import sampleDocument from 'tplfa-apis/openai/fixture/document.json';
 import { TplfaValidator } from '../src/tplfa-validator';
 import { TemplatingForApi } from '../src/templating-for-api';
-import { TplfaDocVars, TplfaReqVars } from '../src/tplfa-types';
+import { TplfaDocVars, TplfaReqVars, LibTemplates } from '../src/tplfa-types';
+import { DefinedLoadedTemplate, loadLibTemplates, loadTemplate } from '../src/nodejs-loader';
 
 require('tplfa-jsonnet/wasm_exec.js');
 
 describe('templating-for-api', () => {
   let jsonnet: Jsonnet;
   let tplfa: TemplatingForApi;
+  let template: DefinedLoadedTemplate;
+  let libTemplates: LibTemplates;
 
-  const openaiReqTemplate = fs.readFileSync(
-    require.resolve('tplfa-apis/openai/lib/request-tpl.jsonnet'),
-    'utf-8'
-  );
-  const openaiDocTemplate = fs.readFileSync(
-    require.resolve('tplfa-apis/lib/openai-document-tpl.jsonnet'),
-    'utf-8'
-  );
-  const libFiles = {
-    'openai-request-tpl.jsonnet': fs.readFileSync(
-      require.resolve('tplfa-apis/lib/openai-request-tpl.jsonnet'),
-      'utf-8'
-    ),
-  };
 
   beforeAll(async () => {
+    libTemplates = await loadLibTemplates();
+    template = await loadTemplate('openai', libTemplates);
+
     const jnWasm = fs.readFileSync(
       require.resolve('tplfa-jsonnet/libjsonnet.wasm')
     );
@@ -35,7 +27,7 @@ describe('templating-for-api', () => {
     tplfa = new TemplatingForApi(
       jsonnet,
       new TplfaValidator(),
-      libFiles
+      libTemplates
     );
   });
 
@@ -50,7 +42,7 @@ describe('templating-for-api', () => {
     it('happy path', async () => {
       const tplfaRequest = await tplfa.toTplfaRequest(
         'test code',
-        openaiReqTemplate,
+        template.requestTpl,
         vars
       );
 
@@ -67,7 +59,7 @@ describe('templating-for-api', () => {
     it('catch error in jsonnet', async () => {
       const request = await tplfa.toTplfaRequest(
         'test code',
-        openaiReqTemplate,
+        template.requestTpl,
         {} as TplfaReqVars
       );
 
@@ -108,7 +100,7 @@ describe('templating-for-api', () => {
       const logMock = jest.fn();
       await tplfa.toTplfaRequest(
         'test code',
-        openaiReqTemplate,
+        template.requestTpl,
         vars,
         logMock
       );
@@ -119,7 +111,7 @@ describe('templating-for-api', () => {
         'tplfa toRequest input [name, vars, code]',
         'test code',
         vars,
-        openaiReqTemplate
+        template.requestTpl,
       );
       expect(logMock).toHaveBeenNthCalledWith(
         2,
@@ -140,7 +132,7 @@ describe('templating-for-api', () => {
     it('happy path', async () => {
       const doc = await tplfa.toDocument(
         'test code',
-        openaiDocTemplate,
+        template.documentTpl,
         vars
       );
 
@@ -154,7 +146,7 @@ describe('templating-for-api', () => {
     it('catch error in jsonnet', async () => {
       const request = await tplfa.toDocument(
         'test code',
-        openaiReqTemplate,
+        template.requestTpl,
         {} as TplfaDocVars
       );
 
@@ -197,7 +189,7 @@ describe('templating-for-api', () => {
       const logMock = jest.fn();
       await tplfa.toDocument(
         'test code',
-        openaiDocTemplate,
+        template.documentTpl,
         vars,
         logMock
       );
@@ -208,7 +200,7 @@ describe('templating-for-api', () => {
         'tplfa toDocument input [name, vars, code]',
         'test code',
         vars,
-        openaiDocTemplate
+        template.documentTpl,
       );
       expect(logMock).toHaveBeenNthCalledWith(
         2,

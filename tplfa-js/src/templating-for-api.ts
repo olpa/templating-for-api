@@ -27,7 +27,7 @@ export class TemplatingForApi implements ITemplatingForApi {
   constructor(
     private readonly jsonnet: Jsonnet,
     private readonly validator: TplfaValidator,
-    private readonly jsonnetLibFiles: Record<string, string>
+    private readonly libTemplates: Record<string, string>
   ) {}
 
   async toTplfaRequest(
@@ -58,7 +58,7 @@ export class TemplatingForApi implements ITemplatingForApi {
       const reqStr = await this.jsonnet.evaluate(
         requestTemplate,
         reqVars,
-        this.jsonnetLibFiles
+        this.libTemplates
       );
 
       if (debugLog) {
@@ -136,7 +136,7 @@ export class TemplatingForApi implements ITemplatingForApi {
       const transformed = await this.jsonnet.evaluate(
         apiTemplate,
         docVars,
-        this.jsonnetLibFiles
+        this.libTemplates
       );
 
       if (debugLog) {
