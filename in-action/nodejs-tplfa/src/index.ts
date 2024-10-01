@@ -5,6 +5,7 @@ import { getJsonnet } from 'tplfa-jsonnet/jsonnet';
 import { LoadedTemplate, TplfaResultOrError } from 'tplfa/tplfa-types';
 import { TplfaValidator } from 'tplfa/tplfa-validator';
 import { TemplatingForApi } from 'tplfa/templating-for-api';
+import { loadLibTemplates, loadTemplate } from 'tplfa/nodejs-loader';
 import { ApiClient } from 'tplfa/api-client';
 
 interface ToolArguments {
@@ -74,7 +75,8 @@ async function main(): Promise<void> {
   );
   const jsonnet = await getJsonnet(jsonnetWasm);
   const validator = new TplfaValidator();
-  const tplfa = new TemplatingForApi(jsonnet, validator);
+  const libTemplates = await loadLibTemplates();
+  const tplfa = new TemplatingForApi(jsonnet, validator, libTemplates);
 
   //
   // API template loader
@@ -82,25 +84,14 @@ async function main(): Promise<void> {
   async function templateLoader(
     templatePath: string
   ): Promise<TplfaResultOrError<LoadedTemplate>> {
-    function readFileNoExc(path: string): string | undefined {
-      try {
-        return fs.readFileSync(path, 'utf-8');
-      } catch {
-        return undefined;
-      }
-    }
+    const tpl = await loadTemplate(templatePath, libTemplates);
     return {
       ok: true,
       result: {
-        requestTpl: readFileNoExc(
-          `${templatePath}/request-tpl.jsonnet`
-        ),
-        documentTpl: readFileNoExc(
-          `${templatePath}/document-tpl.jsonnet`
-        ),
+        ...tpl,
         hasDebugFlag: argv.debug,
-      },
-    };
+      }
+    }
   }
 
   //
