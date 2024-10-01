@@ -102,5 +102,5 @@ The document structure will be more rich in the future. It will be based on the 
 # Using in NPM
 
 ```
-npm install https://github.com/olpa/templating-for-api/releases/download/apis-v1.1.0/apis-v1.1.0.tar.gz
+npm install https://github.com/olpa/templating-for-api/releases/download/apis-v1.1.0/apis-v1.1.1.tar.gz
 ```
