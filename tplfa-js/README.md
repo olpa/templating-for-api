@@ -19,6 +19,7 @@ Run a query-template:
 - Put the prompt and the secret to `TplfaReqVars`
   - If the template is a part of a chain, put the previous output to `parent`
 - Load the code of the request template to `requestTemplate`
+  - If the template is from `tpfa-apis` package, use `loadLibTemplates` followed by `loadTemplate` from `nodejs-loader.ts`
 - Call `TemplatingForApi.toTplfaRequest`
   - You get a validated output of type `TplfaRequest`
 
