@@ -34,7 +34,7 @@ async function parseCommandLine(): Promise<
     })
     .option('secret1', {
       describe: 'Secret value 1',
-      default: process.env.OPENAI_API_KEY ?? '',
+      default: process.env.LLM_API_KEY ?? '',
       type: 'string',
     })
     .option('secret2', {
