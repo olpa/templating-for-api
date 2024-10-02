@@ -7,7 +7,9 @@ SCHEMA_FILES := $(wildcard schemas/*.json)
 
 ANTHROPIC_FILES := $(wildcard anthropic/lib/*.jsonnet)
 
-ALL_FILES := README.md $(SCHEMA_FILES) $(LIB_FILES) $(OPENAI_FILES) $(ANTHROPIC_FILES)
+DOC_FILES := README.md changelog.md
+
+ALL_FILES := $(DOC_FILES) $(SCHEMA_FILES) $(LIB_FILES) $(OPENAI_FILES) $(ANTHROPIC_FILES)
 ALL_DIST_FILES := $(addprefix dist/, $(ALL_FILES))
 
 dist: $(ALL_DIST_FILES)
