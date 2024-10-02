@@ -5,14 +5,14 @@
   "scripts": {
     "test": "jest",
     "fix": "eslint --fix \"./src/**/*.ts\" \"./test/**/*.ts\" && prettier \"./src/**/*.ts\" \"./test/**/*.ts\" --write",
-    "build": "./build.sh"
+    "build": "./build.sh && cp README.md changelog.md ./dist"
   },
   "author": "Oleg Parashchenko",
   "license": "MIT",
   "dependencies": {
     "ajv": "^8.12.0",
     "node-fetch": "^2.6.1",
-    "tplfa-apis": "^1.1.0",
+    "tplfa-apis": "^1.1.1",
     "tplfa-jsonnet": "^1.1.0"
   },
   "devDependencies": {
