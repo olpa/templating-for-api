@@ -14,9 +14,9 @@ async function getJsonnet(jnWasm) {
     if (!jsonnet_evaluate_snippet) {
         throw new Error('libjsonnet: `jsonnet_evaluate_snippet` is missing');
     }
-    async function evaluate(code, vars) {
+    async function evaluate(code, vars, files = {}) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return jsonnet_evaluate_snippet('anonymous', code, { anonymous: code }, vars !== null && vars !== void 0 ? vars : {}, {}, {}, {});
+        return jsonnet_evaluate_snippet('anonymous', code, Object.assign(Object.assign({}, files), { anonymous: code }), vars !== null && vars !== void 0 ? vars : {}, {}, {}, {});
     }
     jsonnet = {
         jsonnet_evaluate_snippet,

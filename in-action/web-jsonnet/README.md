@@ -8,7 +8,7 @@ To start the server:
 
 
 ```
-python3 serve.py
+python3 server.py
 ```
 
 Then point a browser to <http://localhost:8000>.

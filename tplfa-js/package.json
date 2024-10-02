@@ -1,11 +1,11 @@
 {
   "name": "tplfa",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "Templating for APIs",
   "scripts": {
     "test": "jest",
     "fix": "eslint --fix \"./src/**/*.ts\" \"./test/**/*.ts\" && prettier \"./src/**/*.ts\" \"./test/**/*.ts\" --write",
-    "build": "./build.sh"
+    "build": "./build.sh && cp README.md changelog.md ./dist"
   },
   "author": "Oleg Parashchenko",
   "license": "MIT",

@@ -12,3 +12,5 @@ tsc /src/jsonnet.ts --outDir /dist/ --target es2017 --module commonjs --declarat
   cp /dist/jsonnet.js /dist/jsonnet-web.js &&
   sed 's/^.*exports.*$//' --in-place /dist/jsonnet-web.js
   "
+
+cp README.md changelog.md ./dist/
