@@ -26,3 +26,10 @@ test: $(TEST_TRIGGERS)
 
 %.test-trigger:
 	cd $(dir $@) && npm test
+
+DEPS_TRIGGERS := $(addsuffix .deps-trigger, $(TEST_DIRS))
+
+update-deps: $(DEPS_TRIGGERS)
+
+%.deps-trigger:
+	cd $(dir $@) && npm install tplfa-jsonnet --update
