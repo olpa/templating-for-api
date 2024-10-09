@@ -1,0 +1,18 @@
+{
+  "id": "msg_015ZPFSNXEvVHRymsG7H6Pab",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-3-5-sonnet-20240620",
+  "content": [
+    {
+      "type": "text",
+      "text": "Pong!"
+    }
+  ],
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 17,
+    "output_tokens": 55
+  }
+}
