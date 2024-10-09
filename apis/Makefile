@@ -5,7 +5,9 @@ OPENAI_FILES := $(wildcard openai/lib/*.jsonnet) \
 
 SCHEMA_FILES := $(wildcard schemas/*.json)
 
-ANTHROPIC_FILES := $(wildcard anthropic/lib/*.jsonnet)
+ANTHROPIC_FILES := $(wildcard anthropic/lib/*.jsonnet) \
+  $(wildcard anthropic/fixture/*.json)
+
 
 DOC_FILES := README.md changelog.md
 
