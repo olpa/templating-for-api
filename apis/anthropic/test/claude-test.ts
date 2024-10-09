@@ -2,9 +2,9 @@ import fs from 'fs';
 import 'tplfa-jsonnet/wasm_exec.js';
 import { Jsonnet, getJsonnet } from 'tplfa-jsonnet/jsonnet';
 import chai from 'chai';
-import fixtureRequest from '../../openai/fixture/request.json';
+import fixtureRequest from '../fixture/request.json';
 import fixtureResponse from '../fixture/response.json';
-import fixtureDocument from '../../openai/fixture/document.json';
+import fixtureDocument from '../fixture/document.json';
 chai.config.truncateThreshold = 0;
 
 const url = 'https://api.anthropic.com/v1/messages';
