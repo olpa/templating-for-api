@@ -31,6 +31,7 @@ describe('anthropic clause', () => {
       'Content-type': 'application/json',
       'X-api-key': 'is a secret1',
       'Anthropic-version': '2023-06-01',
+      'Anthropic-dangerous-direct-browser-access': 'true'
     },
     body: {
       ...fixtureRequest,
