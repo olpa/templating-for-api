@@ -1,8 +1,9 @@
 # Changelog
 
-## [2024-10-02] - v1.1.2
+## [2024-10-09] - v1.1.3
 
 - Add and pack Claude fixture
+- Add a CORS header
 
 
 ## [2024-10-02] - v1.1.0
