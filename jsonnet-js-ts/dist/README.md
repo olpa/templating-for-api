@@ -86,8 +86,8 @@ evaluate: (
 
 See:
 
-- Browser environment: [../in-action/web-jsonnet/](../in-action/web-jsonnet/)
-- Node.js environment: [../in-action/nodejs-jsonnet/](../in-action/nodejs-jsonnet/)
+- Browser environment: [https://github.com/olpa/templating-for-api/tree/master/in-action/web-jsonnet/](https://github.com/olpa/templating-for-api/tree/master/in-action/web-jsonnet/)
+- Node.js environment: [https://github.com/olpa/templating-for-api/tree/master/in-action/nodejs-jsonnet/](https://github.com/olpa/templating-for-api/tree/master/in-action/nodejs-jsonnet/)
 
 
 ## Compatibility note

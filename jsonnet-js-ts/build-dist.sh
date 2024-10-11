@@ -14,3 +14,4 @@ tsc /src/jsonnet.ts --outDir /dist/ --target es2017 --module commonjs --declarat
   "
 
 cp README.md changelog.md ./dist/
+sed --in-place 's#\.\./#https://github.com/olpa/templating-for-api/tree/master/#g' ./dist/README.md
