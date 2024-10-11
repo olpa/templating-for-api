@@ -7,7 +7,9 @@
     "url": "https://github.com/olpa/templating-for-api.git"
   },
   "keywords": [
-    "jsonnet"
+    "jsonnet",
+    "json",
+    "template"
   ],
   "author": "Oleg Parashchenko <olpa@uucode.com> (https://uucode.com/)",
   "license": "MIT",
