@@ -4,9 +4,9 @@
 
 > The design is influenced by several configuration languages internal to Google, and embodies years of experience configuring some of the world's most complex IT systems. Jsonnet is now used by many companies and projects.
 
-For the `tplfa-jsonnet` package, Jsonnet is compiled from Go to WASM and wrapped by a helper functions.
+For the `tplfa-jsonnet` package, Jsonnet is compiled from Go to WASM and wrapped with helper functions.
 
-The letters "tplfa" stay for "[templating for api](https://github.com/olpa/templating-for-api)", a project to provide a unified interface to generative AI providers. `tplfa-jsonnet` is the foundation part of the bigger project.
+The letters "tplfa" stay for "[Templating for API](https://github.com/olpa/templating-for-api)", a project to provide a unified interface to generative AI providers. `tplfa-jsonnet` is the foundation part of the larger project.
 
 ## Installation
 
@@ -45,7 +45,7 @@ const jsonnetPromise = (async () => {
 </script>
 ```
 
-The object `jsonnet` provides two functions:
+The `jsonnet` object provides two functions:
 
 - `jsonnet_evaluate_snippet`: Wrapper for the corresponding jsonnet library function
 - `evaluate`: Simplified interface. Only code, its external variables, and library files
@@ -92,7 +92,7 @@ See:
 
 ## Compatibility note
 
-For old versions of node you need to edit the file `wasm_exec.js`. After the line `use strict` add line `globalThis.crypto ??= require('crypto');`. Maybe more changes are needed: <https://github.com/golang/go/issues/53128>.
+For old node versions, you need to edit the file `wasm_exec.js`. After the line `use strict` add line `globalThis.crypto ??= require('crypto');`. Maybe more changes are needed: <https://github.com/golang/go/issues/53128>.
 
 
 ## License, contact
