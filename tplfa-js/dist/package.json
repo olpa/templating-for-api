@@ -1,6 +1,6 @@
 {
   "name": "tplfa",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Templating for APIs",
   "scripts": {
     "test": "jest",
@@ -12,8 +12,8 @@
   "dependencies": {
     "ajv": "^8.12.0",
     "node-fetch": "^2.6.1",
-    "tplfa-apis": "^1.1.1",
-    "tplfa-jsonnet": "^1.1.0"
+    "tplfa-apis": "^1.1.3",
+    "tplfa-jsonnet": "^1.2.0"
   },
   "devDependencies": {
     "@types/ajv": "^1.0.0",

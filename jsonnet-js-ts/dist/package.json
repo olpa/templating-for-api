@@ -1,10 +1,17 @@
 {
   "name": "tplfa-jsonnet",
-  "version": "1.1.0",
-  "description": "TS and JS bindings for Jsonnet",
+  "description": "TS and JS bindings for wasm-compiled-from-go [Jsonnet](https://jsonnet.org/) json templating. Works in Node.js and browser environments.",
+  "version": "1.2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/olpa/templating-for-api.git"
+  },
   "keywords": [
-    "jsonnet"
+    "jsonnet",
+    "json",
+    "template"
   ],
-  "author": "Oleg Parashchenko",
-  "license": "MIT"
+  "author": "Oleg Parashchenko <olpa@uucode.com> (https://uucode.com/)",
+  "license": "MIT",
+  "homepage": "https://github.com/olpa/templating-for-api/tree/master/jsonnet-js-ts"
 }

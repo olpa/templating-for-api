@@ -3,7 +3,7 @@
 Installation:
 
 ```
-npm install https://github.com/olpa/templating-for-api/releases/download/tplfa-v1.1.1/tplfa-v1.1.1.tar.gz
+npm install https://github.com/olpa/templating-for-api/releases/download/tplfa-v1.1.2/tplfa-v1.1.2.tar.gz
 ```
 
 ## Client workflow

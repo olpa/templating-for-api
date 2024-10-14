@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "tplfa-jsonnet": "file:../../jsonnet-js-ts/dist",
+    "tplfa-jsonnet": "^1.2.0",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
