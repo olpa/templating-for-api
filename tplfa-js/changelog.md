@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.2] - 2024-10-14
+
+- Updgrade "apis" to "1.1.3"
+- Switch to npmjs version of "tplfa-jsonnet"
+
+
 ## [1.1.1] - 2024-10-02
 
 - Loader of "tplfa-api" library files and templates
