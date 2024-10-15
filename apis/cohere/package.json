@@ -1,0 +1,23 @@
+{
+  "name": "cohere",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --require ts-node/register test/**/*.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tplfa-jsonnet": "^1.2.0",
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.16",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^20.12.3",
+    "chai": "^4.5.0",
+    "mocha": "^10.7.0"
+  }
+}
