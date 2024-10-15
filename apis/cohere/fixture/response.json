@@ -1,0 +1,23 @@
+{
+  "id": "1b8fc799-4e6d-444b-9374-80f3f9e53788",
+  "message": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "Hi! Hello to you too! How's it going?"
+      }
+    ]
+  },
+  "finish_reason": "COMPLETE",
+  "usage": {
+    "billed_units": {
+      "input_tokens": 1,
+      "output_tokens": 12
+    },
+    "tokens": {
+      "input_tokens": 67,
+      "output_tokens": 12
+    }
+  }
+}
