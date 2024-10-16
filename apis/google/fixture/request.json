@@ -13,5 +13,6 @@
    "headers": {
       "Content-type": "application/json"
    },
-   "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=AIzaSyC97R9Ns0JJnaN6ybC3AYXcCcj1CRyqC9Y"
+   "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=LLM_KEY",
+   "method": "POST"
 }
