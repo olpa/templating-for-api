@@ -1,5 +1,11 @@
 # Changelog
 
+## [2024-10-16] - v1.1.4
+
+- Add Cohere CommandR
+- Add Google Gemini
+
+
 ## [2024-10-09] - v1.1.3
 
 - Add and pack Claude fixture
