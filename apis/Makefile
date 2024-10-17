@@ -1,17 +1,22 @@
 LIB_FILES :=$(wildcard lib/*.jsonnet)
 
+SCHEMA_FILES := $(wildcard schemas/*.json)
+
 OPENAI_FILES := $(wildcard openai/lib/*.jsonnet) \
   $(wildcard openai/fixture/*.json)
-
-SCHEMA_FILES := $(wildcard schemas/*.json)
 
 ANTHROPIC_FILES := $(wildcard anthropic/lib/*.jsonnet) \
   $(wildcard anthropic/fixture/*.json)
 
+COHERE_FILES := $(wildcard cohere/lib/*.jsonnet) \
+  $(wildcard cohere/fixture/*.json)
+
+GOOGLE_FILES := $(wildcard google/lib/*.jsonnet) \
+  $(wildcard google/fixture/*.json)
 
 DOC_FILES := README.md changelog.md
 
-ALL_FILES := $(DOC_FILES) $(SCHEMA_FILES) $(LIB_FILES) $(OPENAI_FILES) $(ANTHROPIC_FILES)
+ALL_FILES := $(DOC_FILES) $(SCHEMA_FILES) $(LIB_FILES) $(OPENAI_FILES) $(ANTHROPIC_FILES) $(COHERE_FILES) $(GOOGLE_FILES)
 ALL_DIST_FILES := $(addprefix dist/, $(ALL_FILES))
 
 dist: $(ALL_DIST_FILES)
