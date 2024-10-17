@@ -1,5 +1,10 @@
 # Changelog
 
+## [2024-10-17] - v1.1.5
+
+- Add Cohere and Google to the distro package
+
+
 ## [2024-10-16] - v1.1.4
 
 - Add Cohere CommandR
