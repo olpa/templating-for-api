@@ -1,0 +1,17 @@
+{
+   "body": {
+      "messages": [
+         {
+            "content": "hello",
+            "role": "user"
+         }
+      ],
+      "model": "mistral-large-latest"
+   },
+   "headers": {
+      "Authorization": "Bearer test-token",
+      "Content-type": "application/json"
+   },
+   "method": "POST",
+   "url": "https://api.mistral.ai/v1/chat/completions"
+}

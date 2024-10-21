@@ -1,0 +1,22 @@
+{
+  "id": "128b4685ae04455786c6f3969d889af3",
+  "object": "chat.completion",
+  "created": 1729479769,
+  "model": "mistral-large-latest",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Hello! How can I assist you today? Let me know if you have any questions or need help with something specific. 😊",
+        "tool_calls": null
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 5,
+    "total_tokens": 31,
+    "completion_tokens": 26
+  }
+}
